@@ -1,4 +1,4 @@
-package marks.marksapigateway.models;
+package marks.marksapigateway.models.user;
 
 import java.util.List;
 
