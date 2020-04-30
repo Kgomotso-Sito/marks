@@ -6,8 +6,6 @@ import marks.usermanagement.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/users")
 public class UserResource {
@@ -26,7 +24,7 @@ public class UserResource {
     }
 
     @RequestMapping("/{userNumber}")
-    public User getUserUserNumber(@PathVariable("userNumber") String userNumber) {
+    public User getUserByUserNumber(@PathVariable("userNumber") String userNumber) {
         return userService.findByUserNumber(userNumber);
     }
 
