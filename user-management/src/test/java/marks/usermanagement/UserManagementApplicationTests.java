@@ -30,7 +30,7 @@ class UserManagementApplicationTests {
 		testUser.setRole(User.Role.Teacher);
 		testUser.setTitle("Mr");
 		testUser.setFullName("Teacher");
-		testUser.setLastName("Test");
+		testUser.setLastName("Sito");
 
 		testUser.setGender("Male");
 		testUser.setRace("Black");
@@ -48,7 +48,7 @@ class UserManagementApplicationTests {
 		testUser.setProvince("Gauteng");
 
 		userService.createOrUpdate(testUser);
-		User user = userService.loadUserByLastName("Sito");
+		User user = userService.findByUserNumber("A20200000");
 
 		assertEquals(testUser.getIdNumber(), user.getIdNumber());
 	}

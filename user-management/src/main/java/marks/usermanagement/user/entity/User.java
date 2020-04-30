@@ -10,6 +10,7 @@ public class  User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    private String userNumber;
     @Enumerated(EnumType.STRING)
     private Role role;
     private String title;
@@ -33,10 +34,10 @@ public class  User {
     private String city;
     private String province;
 
-    public User() {
-    }
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private Boolean active = Boolean.TRUE;
 
-    public User(User user) {
+    public User() {
     }
 
     public int getId() {
@@ -45,6 +46,14 @@ public class  User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getUserNumber() {
+        return userNumber;
+    }
+
+    public void setUserNumber(String userNumber) {
+        this.userNumber = userNumber;
     }
 
     public Role getRole() {
@@ -173,6 +182,14 @@ public class  User {
 
     public void setProvince(String province) {
         this.province = province;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public enum Role {

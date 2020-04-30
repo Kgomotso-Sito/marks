@@ -4,10 +4,7 @@ import marks.usermanagement.user.dto.UserList;
 import marks.usermanagement.user.entity.User;
 import marks.usermanagement.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,9 +20,14 @@ public class UserResource {
         return "User management micro-service is running";
     }
 
-    @RequestMapping("/lastName")
-    public User getUserByLastName() {
-        return userService.loadUserByLastName("Sito");
+    @RequestMapping(path = "/create", method = RequestMethod.POST)
+    public boolean createUser(@RequestBody User user){
+        return userService.createOrUpdate(user) != null;
+    }
+
+    @RequestMapping("/{userNumber}")
+    public User getUserUserNumber(@PathVariable("userNumber") String userNumber) {
+        return userService.findByUserNumber(userNumber);
     }
 
     @RequestMapping("/all/{role}")
@@ -44,6 +46,11 @@ public class UserResource {
             // log error or something here
         }
         return null;
+    }
+
+    @RequestMapping(path = "/deactivate/{userNumber}", method = RequestMethod.POST)
+    public String deactivateUser(@PathVariable("userNumber") String userNumber) {
+        return userService.deactivateUser(userNumber);
     }
 
 }
