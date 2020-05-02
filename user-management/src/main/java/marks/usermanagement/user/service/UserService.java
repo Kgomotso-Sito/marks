@@ -26,7 +26,7 @@ public class UserService {
     }
 
     public User createOrUpdate(User user)  {
-        if (user.getUserNumber() == null) {
+        if (user.getUserNumber() == null || user.getUserNumber().trim().equals("")) {
             String userNumber = String.format(user.getRole().toString().charAt(0) + "%d%04d",
                     Calendar.getInstance().get(Calendar.YEAR), getNumberOfUsers(user.getRole()));
             user.setUserNumber(userNumber);

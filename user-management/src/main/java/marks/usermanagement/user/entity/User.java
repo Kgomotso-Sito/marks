@@ -14,6 +14,7 @@ public class  User {
     @Enumerated(EnumType.STRING)
     private Role role;
     private String title;
+    private String initials;
     private String fullName;
     private String lastName;
 
@@ -31,6 +32,7 @@ public class  User {
     //Physical Address
     private String houseNo;
     private String StreetNo;
+    private String cityCode;
     private String city;
     private String province;
 
@@ -70,6 +72,14 @@ public class  User {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getInitials() {
+        return initials;
+    }
+
+    public void setInitials(String initials) {
+        this.initials = initials;
     }
 
     public String getFullName() {
@@ -174,6 +184,14 @@ public class  User {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getCityCode() {
+        return cityCode;
+    }
+
+    public void setCityCode(String cityCode) {
+        this.cityCode = cityCode;
     }
 
     public String getProvince() {
