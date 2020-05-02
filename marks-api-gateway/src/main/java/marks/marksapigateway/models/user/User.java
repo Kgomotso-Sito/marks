@@ -9,6 +9,7 @@ public class  User {
     private String userNumber;
     private Role role;
     private String title;
+    private String initials;
     private String fullName;
     private String lastName;
 
@@ -27,6 +28,7 @@ public class  User {
     private String houseNo;
     private String StreetNo;
     private String city;
+    private String cityCode;
     private String province;
 
     private Boolean active;
@@ -48,6 +50,14 @@ public class  User {
 
     public void setUserNumber(String userNumber) {
         this.userNumber = userNumber;
+    }
+
+    public String getInitials() {
+        return initials;
+    }
+
+    public void setInitials(String initials) {
+        this.initials = initials;
     }
 
     public Role getRole() {
@@ -168,6 +178,14 @@ public class  User {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getCityCode() {
+        return cityCode;
+    }
+
+    public void setCityCode(String cityCode) {
+        this.cityCode = cityCode;
     }
 
     public String getProvince() {

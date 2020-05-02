@@ -14,13 +14,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin(origins="*", maxAge=3600)
 public class UserManagementResource {
 
     private String URL = "http://user-management-service/users";
     @Autowired
     private RestTemplate restTemplate;
 
-    @RequestMapping(path = "/create", method = RequestMethod.POST)
+    @RequestMapping(path = "/create", method = RequestMethod.POST, consumes = "application/json")
     public boolean createUser(@RequestBody User user){
 
         HttpHeaders headers = new HttpHeaders();
@@ -30,7 +31,7 @@ public class UserManagementResource {
 
         ResponseEntity<String> result = restTemplate.postForEntity(URL + "/create", entity, String.class);
 
-        return (result.getStatusCodeValue() == 201);
+        return (result.getStatusCodeValue() == 201 || result.getStatusCodeValue() == 200);
     }
 
     @RequestMapping(path = "/all/{role}", produces = "application/json")
