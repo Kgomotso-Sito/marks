@@ -1,6 +1,6 @@
 // Angular
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { NgModule } from '@angular/core';
 
 // User Components
@@ -16,13 +16,14 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    UsersRoutingModule,
-    CollapseModule.forRoot(),
-    TabsModule.forRoot()
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        UsersRoutingModule,
+        CollapseModule.forRoot(),
+        TabsModule.forRoot(),
+        ReactiveFormsModule
+    ],
   declarations: [
     AdminComponent,
     TeachersComponent,

@@ -3,13 +3,20 @@
     <div class="col-md-12">
       <div class="row">
         <div class="col-lg-12">
-          <div class="card">
+          <div class="card" (collapsed)="collapsed($event)"
+               (expanded)="expanded($event)"
+               [collapse]="isCollapsed">
             <div class="card-header">
-              <strong>Admin list:</strong>
+              <strong>Teacher list:</strong>
             </div>
             <div class="card-body">
-              <div class="row justify-content-end">
-                <div class="col-lg-4 input-prepend input-group">
+              <div class="row ">
+                <div class="col-lg-8">
+                  <button type="button" class="btn btn-primary"
+                          (click)="createNewUser()">Add new teacher
+                  </button>
+                </div>
+                <div class="col-lg-4 input-prepend input-group justify-content-end">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fa fa-search"></i></span>
                   </div>
@@ -20,27 +27,45 @@
               <table class="table table-bordered table-striped ">
                 <thead>
                 <tr>
-                  <th>Employee ID</th>
-                  <th>Name</th>
+                  <th>Teacher ID</th>
+                  <th>FirstName</th>
+                  <th>LastName</th>
                   <th>DOB</th>
                   <th>ID number</th>
                   <th>Phone number</th>
                   <th>Email</th>
-                  <th>Subjects</th>
                   <th>Account Status</th>
+                  <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>10000</td>
-                  <td>Vishnu Serghei</td>
-                  <td>2012/01/01</td>
-                  <td>201201010000000</td>
-                  <td>10081234567</td>
-                  <td>admin@gmail.com</td>
-                  <td>Math, Science</td>
+                <tr *ngFor="let user of users">
                   <td>
-                    <span class="badge badge-success">Active</span>
+                    {{user.userNumber}}
+                  </td>
+                  <td>
+                    {{user.fullName}}
+                  </td>
+                  <td>
+                    {{user.lastName}}
+                  </td>
+                  <td>
+                    {{user.birthDate | date:'dd/MM/yyy'}}
+                  </td>
+                  <td>
+                    {{user.idNumber}}
+                  </td>
+                  <td>
+                    {{user.phoneNumber}}
+                  </td>
+                  <td>
+                    {{user.emailAddress}}
+                  </td>
+                  <td>
+                    <button (click)="viewTeacherUser(user.userNumber)" class="btn btn-link">Edit</button>
+                  </td>
+                  <td>
+                    <span class="badge {{user.active ? 'badge-success': 'badge-danger'}}"> {{user.active ? 'Active': 'Deactivated'}}</span>
                   </td>
                 </tr>
                 </tbody>
@@ -51,37 +76,46 @@
         <!--/.col-->
       </div>
 
-      <!--View update learner details-->
-      <div class="card">
+      <!--View update teacher details-->
+      <div class="card" (collapsed)="collapsed($event)"
+           (expanded)="expanded($event)"
+           [collapse]="!isCollapsed">
         <div class="card-header">
-          <strong>Teacher details:</strong>
+          <div class="row">
+            <strong class="col-md-9">Teacher:</strong>
+            <div class="col-md-3">
+              <button type="button" class="btn btn-link"
+                      (click)="viewListUsers()"><strong>View all teachers</strong>
+              </button>
+            </div>
+          </div>
         </div>
         <div class="card-body">
-          <form #form='ngForm' (ngSubmit)='submitForm(form.value)' enctype="multipart/form-data" class="form-horizontal">
+          <form [formGroup]="form" (ngSubmit)='submitForm(form.value)' enctype="multipart/form-data" class="form-horizontal">
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="title-select">Title</label>
               <div class="col-md-2">
-                <select id="title-select" name="title" class="form-control" ngModel required>
-                  <option value="0">Bind to DB</option>
+                <select id="title-select" formControlName="title" class="form-control"  required>
+                  <option *ngFor="let title of titles" [ngValue]="title">{{title}}</option>
                 </select>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="initials-txt">Initials</label>
               <div class="col-md-6">
-                <input type="text" id="initials-txt" name="initials" class="form-control" placeholder="Initials e.g K.C.J" ngModel required>
+                <input type="text" id="initials-txt" formControlName="initials" class="form-control" placeholder="Initials e.g K.C.J" required>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="full-name-txt">Full name</label>
               <div class="col-md-6">
-                <input type="text" id="full-name-txt" name="full-name" class="form-control" placeholder="Full name" ngModel required>
+                <input type="text" id="full-name-txt" formControlName="fullName" class="form-control" placeholder="Full name"  required>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="last-name-txt">Last name</label>
               <div class="col-md-6">
-                <input type="text" id="last-name-txt" name="last-name" class="form-control" placeholder="Last name" ngModel required>
+                <input type="text" id="last-name-txt" formControlName="lastName" class="form-control" placeholder="Last name"  required>
               </div>
             </div>
 
@@ -89,27 +123,24 @@
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="gender-select">Gender</label>
               <div class="col-md-2">
-                <select id="gender-select" name="gender" class="form-control">
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
+                <select id="gender-select" formControlName="gender" class="form-control" >
+                  <option *ngFor="let gender of genders" [ngValue]="gender">{{gender}}</option>
                 </select>
               </div>
             </div>
+
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="race-select">Race</label>
               <div class="col-md-2">
-                <select id="race-select" name="gender" class="form-control">
-                  <option value="Black">Black</option>
-                  <option value="White">White</option>
-                  <option value="Colored">Colored</option>
-                  <option value="Other">Other</option>
+                <select id="race-select" formControlName="race" class="form-control" >
+                  <option *ngFor="let race of races" [ngValue]="race">{{race}}</option>
                 </select>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="birth-date-input">Birth date</label>
               <div class="col-md-2">
-                <input class="form-control" id="birth-date-input" type="date" name="birth-date" placeholder="date">
+                <input class="form-control" id="birth-date-input" type="date" formControlName="birthDate" placeholder="date" >
               </div>
             </div>
 
@@ -117,7 +148,7 @@
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="nationality-select">Nationality</label>
               <div class="col-md-2">
-                <select id="nationality-select" name="nationality" class="form-control" [(ngModel)]="nationality">
+                <select id="nationality-select" formControlName="nationality" class="form-control" [(ngModel)]="nationality">
                   <option value="RSA">RSA</option>
                   <option value="Other">Other</option>
                 </select>
@@ -126,19 +157,19 @@
             <div class="form-group row" [hidden]="nationality=='RSA' || nationality==undefined">
               <label class="col-md-2 col-form-label" for="other-nationality-txt">Other nationality</label>
               <div class="col-md-6">
-                <input type="text" id="other-nationality-txt" name="other-nationality" class="form-control" placeholder="nationality" ngModel required>
+                <input type="text" id="other-nationality-txt" formControlName="otherNationality" class="form-control" placeholder="nationality" required>
               </div>
             </div>
             <div class="form-group row" [hidden]="nationality=='Other'">
               <label class="col-md-2 col-form-label" for="id-number-txt">ID Number</label>
               <div class="col-md-6">
-                <input type="email" id="id-number-txt" name="id-number" class="form-control" placeholder="ID number" autocomplete="email">
+                <input type="email" id="id-number-txt" formControlName="idNumber" class="form-control" placeholder="ID number" autocomplete="ID number"  required>
               </div>
             </div>
             <div class="form-group row" [hidden]="nationality=='RSA' || nationality==undefined">
               <label class="col-md-2 col-form-label" for="passport-number-txt">Passport Number</label>
               <div class="col-md-6">
-                <input type="text" id="passport-number-txt" name="passport-number" class="form-control" placeholder="Passport Number" ngModel required>
+                <input type="text" id="passport-number-txt" formControlName="passportNumber" class="form-control" placeholder="Passport Number"  required>
               </div>
             </div>
 
@@ -146,13 +177,13 @@
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="email-address-txt">Email Address</label>
               <div class="col-md-6">
-                <input type="email" id="email-address-txt" name="email-address" class="form-control" placeholder="Email Address" autocomplete="email">
+                <input type="email" id="email-address-txt" formControlName="emailAddress" class="form-control" placeholder="Email Address"  required>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="phone-number-txt">Phone number</label>
               <div class="col-md-6">
-                <input type="email" id="phone-number-txt" name="phone-number" class="form-control" placeholder="Phone Number" autocomplete="email">
+                <input type="email" id="phone-number-txt" formControlName="phoneNumber" class="form-control" placeholder="Phone Number"  required>
               </div>
             </div>
 
@@ -160,32 +191,32 @@
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="home-address-no-txt">Physical Address</label>
               <div class="col-md-6">
-                <input type="email" id="home-address-no-txt" name="home-address-no" class="form-control" placeholder="House no or Unit no." >
+                <input type="email" id="home-address-no-txt" formControlName="houseNo" class="form-control" placeholder="House no or Unit no."  required>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="home-address-street-txt"></label>
               <div class="col-md-6">
-                <input type="email" id="home-address-street-txt" name="home-address-street" class="form-control" placeholder="Street address, Building name e.t.c">
+                <input type="email" id="home-address-street-txt" formControlName="streetNo" class="form-control" placeholder="Street address, Building name e.t.c"  required>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="home-address-city-txt"></label>
               <div class="col-md-6">
-                <input type="email" id="home-address-city-txt" name="home-address-city" class="form-control" placeholder="City e,g Pretoria">
+                <input type="email" id="home-address-city-txt" formControlName="city" class="form-control" placeholder="City e,g Pretoria"  required>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="home-address-code-txt"></label>
               <div class="col-md-6">
-                <input type="email" id="home-address-code-txt" name="home-address-code" class="form-control" placeholder="City code">
+                <input type="email" id="home-address-code-txt" formControlName="cityCode" class="form-control" placeholder="City code"  required>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="home-address-province-select"></label>
               <div class="col-md-2">
-                <select id="home-address-province-select" name="home-address-province" class="form-control">
-                  <option value="Gauteng">Gauteng</option>
+                <select id="home-address-province-select" formControlName="province" class="form-control"  required>
+                  <option *ngFor="let province of provinces" [ngValue]="province">{{province}}</option>
                 </select>
               </div>
             </div>
