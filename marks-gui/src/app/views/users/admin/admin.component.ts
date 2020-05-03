@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {User} from "../user.model";
 import {UserService} from "../user.service";
 import {Observable} from "rxjs";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {ModalDirective} from "ngx-bootstrap";
 
 @Component({
   templateUrl: 'admin.component.html'
@@ -17,6 +18,9 @@ export class AdminComponent implements OnInit {
   genders: string[];
   races: string[];
   provinces: string[];
+
+  @ViewChild('warningModal') warningModal: ModalDirective;
+  userNumber: string;
 
   constructor(private userService: UserService, private formBuilder: FormBuilder) {
   }
@@ -110,12 +114,29 @@ export class AdminComponent implements OnInit {
     );
   }
 
+  deactivateAdminUser() {
+    this.userService.deactivateUser(this.userNumber).subscribe(
+        data => {
+            console.log('Response: ' + data)
+            this.getAdminUsers();
+            this.warningModal.hide();
+        },
+        err => console.error(err),
+        () => console.log('Done fetching admin user')
+    );
+  }
+
   collapsed(event: any): void {
     // console.log(event);
   }
 
   expanded(event: any): void {
     // console.log(event);
+  }
+
+  showWarning(userNumber: string) {
+      this.userNumber = userNumber;
+      this.warningModal.show();
   }
 
   toggleCollapse(): void {

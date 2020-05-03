@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {User} from "../user.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {UserService} from "../user.service";
 import {Observable} from "rxjs";
+import {ModalDirective} from "ngx-bootstrap";
 
 @Component({
   selector: 'app-learners',
@@ -24,6 +25,9 @@ export class LearnersComponent implements OnInit{
   isCollapsed: boolean = false;
   iconCollapse: string = 'icon-arrow-up';
   nationality: String;
+
+  @ViewChild('warningModal') warningModal: ModalDirective;
+  userNumber: string;
 
   constructor(private userService: UserService, private formBuilder: FormBuilder) {
   }
@@ -113,6 +117,23 @@ export class LearnersComponent implements OnInit{
           console.log(errorMessage);
         }
     );
+  }
+
+  deactivateLearnerUser() {
+      this.userService.deactivateUser(this.userNumber).subscribe(
+          data => {
+              console.log('Response: ' + data)
+              this.getLearners();
+              this.warningModal.hide();
+          },
+          err => console.error(err),
+          () => console.log('Done fetching admin user')
+      );
+  }
+
+  showWarning(userNumber: string) {
+    this.userNumber = userNumber;
+    this.warningModal.show();
   }
 
   collapsed(event: any): void {

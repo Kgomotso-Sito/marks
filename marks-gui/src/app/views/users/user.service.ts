@@ -28,6 +28,12 @@ export class UserService {
             .get<User>(this.url + "/" + userId);
     }
 
+    public deactivateUser(userId: string) {
+        console.log("Sending ..." + JSON.stringify(userId));
+        return this.http
+            .post<string>(this.url + "/deactivate/" + userId, null);
+    }
+
     public getTitles() {
         return ["Mr", "Mrs", "Ms", "Dr", "Prof"];
     }

@@ -34,8 +34,8 @@
                   <th>ID number</th>
                   <th>Phone number</th>
                   <th>Email</th>
-                  <th>Account Status</th>
                   <th>Actions</th>
+                  <th>Account Status</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -65,7 +65,10 @@
                     <button (click)="viewLearners(user.userNumber)" class="btn btn-link">Edit</button>
                   </td>
                   <td>
-                    <span class="badge {{user.active ? 'badge-success': 'badge-danger'}}"> {{user.active ? 'Active': 'Deactivated'}}</span>
+                    <button  (click)="showWarning(user.userNumber)" data-toggle="modal"
+                             class="btn btn-link" [disabled]="!user.active">
+                      <span class="badge {{user.active ? 'badge-success': 'badge-danger'}}"> {{user.active ? 'Active': 'Deactivated'}}</span>
+                    </button>
                   </td>
                 </tr>
                 </tbody>
@@ -272,8 +275,25 @@
   </div><!--/.row-->
 </div>
 
-
-
+<div bsModal #warningModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-warning" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Deactivate User</h4>
+        <button type="button" class="close" (click)="warningModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to deactivate the user&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="warningModal.hide()">Close</button>
+        <button type="button" class="btn btn-warning" (click)="deactivateLearnerUser()">Deactivate</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 
 

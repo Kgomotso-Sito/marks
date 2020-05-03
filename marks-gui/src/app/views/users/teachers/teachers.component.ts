@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserService} from "../user.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {User} from "../user.model";
 import {Observable} from "rxjs";
+import {ModalDirective} from "ngx-bootstrap";
 
 @Component({
   selector: 'app-teachers',
@@ -18,6 +19,9 @@ export class TeachersComponent implements OnInit{
   genders: string[];
   races: string[];
   provinces: string[];
+
+  @ViewChild('warningModal') warningModal: ModalDirective;
+  userNumber: string;
 
   constructor(private userService: UserService, private formBuilder: FormBuilder) {
   }
@@ -101,7 +105,25 @@ export class TeachersComponent implements OnInit{
     this.toggleCollapse();
   }
 
-  viewTeacherUser(teacherId:string) {
+    deactivateTeacherUser() {
+      this.userService.deactivateUser(this.userNumber).subscribe(
+        data => {
+            console.log('Response: ' + data)
+            this.getTeacherUsers();
+            this.warningModal.hide();
+        },
+        err => console.error(err),
+        () => console.log('Done fetching admin user')
+    );
+  }
+
+  showWarning(userNumber: string) {
+    this.userNumber = userNumber;
+    this.warningModal.show();
+  }
+
+
+    viewTeacherUser(teacherId:string) {
     this.userService.getUserByUserId(teacherId).subscribe(
         data => {
           this.user = data;

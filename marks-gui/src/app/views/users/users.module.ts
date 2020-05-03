@@ -12,6 +12,7 @@ import {CollapseModule} from "ngx-bootstrap/collapse";
 
 import { UsersRoutingModule } from './users-routing-module';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import {ModalModule, TooltipModule} from "ngx-bootstrap";
 
 
 
@@ -22,7 +23,9 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
         UsersRoutingModule,
         CollapseModule.forRoot(),
         TabsModule.forRoot(),
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ModalModule.forRoot(),
+        TooltipModule.forRoot(),
     ],
   declarations: [
     AdminComponent,
