@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {User} from "../user.model";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../user.service";
 import {Observable} from "rxjs";
 import {ModalDirective} from "ngx-bootstrap";
@@ -28,6 +28,7 @@ export class LearnersComponent implements OnInit{
 
   @ViewChild('warningModal') warningModal: ModalDirective;
   userNumber: string;
+  private submitted: boolean = false;
 
   constructor(private userService: UserService, private formBuilder: FormBuilder) {
   }
@@ -43,34 +44,43 @@ export class LearnersComponent implements OnInit{
     this.getLearners();
   }
 
-  initialiseForm() {
-    this.form = this.formBuilder.group(
-        {
-          id: "",
-          userNumber: "",
-          role : "",
-          title : "",
-          initials : "",
-          fullName : "",
-          lastName : "",
-          gender : "",
-          race : "",
-          otherNationality : "",
-          birthDate : new Date(),
-          nationality : "",
-          idNumber : "",
-          passportNumber : "",
-          emailAddress : "",
-          phoneNumber : "",
-          houseNo : "",
-          city : "",
-          cityCode : "",
-          province : "",
-          active : true,
-          streetNo : ""
-        }
-    )
+    initialiseForm() {
+      this.form = this.formBuilder.group(
+    {
+        id: "",
+        userNumber: "",
+        role : "",
+        title : this.formBuilder.control("", Validators.required),
+        initials : this.formBuilder.control("", Validators.required),
+        fullName : this.formBuilder.control("", Validators.required),
+        lastName : this.formBuilder.control("", Validators.required),
+        gender : this.formBuilder.control("", Validators.required),
+        race : this.formBuilder.control("", Validators.required),
+        otherNationality : "",
+        birthDate : this.formBuilder.control("", Validators.required),
+        nationality : this.formBuilder.control("", Validators.required),
+        idNumber :  this.formBuilder.control("", [Validators.required, Validators.pattern("^[0-9]*$"),
+            Validators.minLength(12), Validators.maxLength(12)]),
+        passportNumber : "",
+        emailAddress : this.formBuilder.control("", [Validators.required, Validators.email]),
+        phoneNumber : this.formBuilder.control("", [Validators.required, Validators.pattern("^[0-9]*$"),
+            Validators.minLength(10), Validators.maxLength(10)]),
+        houseNo : this.formBuilder.control("", Validators.required),
+        city : this.formBuilder.control("", Validators.required),
+        cityCode : this.formBuilder.control("", [Validators.required, Validators.pattern("^[0-9]*$")]),
+        province : this.formBuilder.control("", Validators.required),
+        active : true,
+        streetNo : this.formBuilder.control("", Validators.required),
+    })
   }
+
+    // convenience getter for easy access to form fields
+    get f() { return this.form.controls; }
+
+    onReset() {
+        this.submitted = false;
+        this.form.reset();
+    }
 
   getLearners() {
     this.userService.getUsersByRole("Learner").subscribe(
@@ -103,6 +113,11 @@ export class LearnersComponent implements OnInit{
   }
 
   submitForm(data){
+    this.submitted = true;
+    if (this.form.invalid) {
+      return;
+    }
+
     let authObs: Observable<boolean>;
     data["role"] = "Learner";
     authObs = this.userService.createUser(data);

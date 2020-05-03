@@ -11,7 +11,7 @@ export class User {
         public schoolClass : string,
         public gender : string,
         public race : string,
-        public birthDate : string,
+        public birthDate : Date,
         public nationality : string,
         public idNumber : string,
         public passportNumber : null,

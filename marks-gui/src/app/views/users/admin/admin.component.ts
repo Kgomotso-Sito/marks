@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {User} from "../user.model";
 import {UserService} from "../user.service";
 import {Observable} from "rxjs";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ModalDirective} from "ngx-bootstrap";
 
 @Component({
@@ -21,6 +21,7 @@ export class AdminComponent implements OnInit {
 
   @ViewChild('warningModal') warningModal: ModalDirective;
   userNumber: string;
+  private submitted: boolean = false;
 
   constructor(private userService: UserService, private formBuilder: FormBuilder) {
   }
@@ -40,28 +41,33 @@ export class AdminComponent implements OnInit {
         id: "",
         userNumber: "",
         role : "",
-        title : "",
-        initials : "",
-        fullName : "",
-        lastName : "",
-        gender : "",
-        race : "",
+        title : this.formBuilder.control("", Validators.required),
+        initials : this.formBuilder.control("", Validators.required),
+        fullName : this.formBuilder.control("", Validators.required),
+        lastName : this.formBuilder.control("", Validators.required),
+        gender : this.formBuilder.control("", Validators.required),
+        race : this.formBuilder.control("", Validators.required),
         otherNationality : "",
-        birthDate : new Date(),
-        nationality : "",
-        idNumber : "",
+        birthDate : this.formBuilder.control("", Validators.required),
+        nationality : this.formBuilder.control("", Validators.required),
+        idNumber :  this.formBuilder.control("", [Validators.required, Validators.pattern("^[0-9]*$"),
+            Validators.minLength(12), Validators.maxLength(12)]),
         passportNumber : "",
-        emailAddress : "",
-        phoneNumber : "",
-        houseNo : "",
-        city : "",
-        cityCode : "",
-        province : "",
+        emailAddress : this.formBuilder.control("", [Validators.required, Validators.email]),
+        phoneNumber : this.formBuilder.control("", [Validators.required, Validators.pattern("^[0-9]*$"),
+            Validators.minLength(10), Validators.maxLength(10)]),
+        houseNo : this.formBuilder.control("", Validators.required),
+        city : this.formBuilder.control("", Validators.required),
+        cityCode : this.formBuilder.control("", [Validators.required, Validators.pattern("^[0-9]*$")]),
+        province : this.formBuilder.control("", Validators.required),
         active : true,
-        streetNo : ""
+        streetNo : this.formBuilder.control("", Validators.required),
       }
     )
   }
+
+  // convenience getter for easy access to form fields
+  get f() { return this.form.controls; }
 
   getAdminUsers() {
     this.userService.getUsersByRole("Admin").subscribe(
@@ -75,7 +81,24 @@ export class AdminComponent implements OnInit {
   iconCollapse: string = 'icon-arrow-up';
   nationality: String;
 
+    public findInvalidControls() {
+         let invalid : string[] = [];
+        const controls = this.form.controls;
+        for (const name in controls) {
+            if (controls[name].invalid) {
+                invalid.push(name);
+            }
+        }
+        return invalid;
+    }
+
   submitForm(data){
+    this.submitted = true;
+    if (this.form.invalid) {
+        console.log("This field " + this.findInvalidControls() + " is invalid")
+      return;
+    }
+
     let authObs: Observable<boolean>;
     data["role"] = "Admin";
     authObs = this.userService.createUser(data);
@@ -90,6 +113,11 @@ export class AdminComponent implements OnInit {
           console.log(errorMessage);
         }
     );
+  }
+
+  onReset() {
+    this.submitted = false;
+    this.form.reset();
   }
 
   viewListUsers() {

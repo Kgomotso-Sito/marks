@@ -97,27 +97,44 @@
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="title-select">Title</label>
               <div class="col-md-2">
-                <select id="title-select" formControlName="title" class="form-control"  required>
+                <select id="title-select" formControlName="title" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
                   <option *ngFor="let title of titles" [ngValue]="title">{{title}}</option>
                 </select>
+                <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                  <div *ngIf="f.title.errors.required">Title is required</div>
+                </div>
               </div>
+
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="initials-txt">Initials</label>
               <div class="col-md-6">
-                <input type="text" id="initials-txt" formControlName="initials" class="form-control" placeholder="Initials e.g K.C.J" required>
+                <input type="text" id="initials-txt" formControlName="initials" class="form-control"
+                       [ngClass]="{ 'is-invalid': submitted && f.initials.errors }" placeholder="Initials e.g K.C.J">
+                <div *ngIf="submitted && f.initials.errors" class="invalid-feedback">
+                  <div *ngIf="f.initials.errors.required">Initials are required</div>
+                </div>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="full-name-txt">Full name</label>
               <div class="col-md-6">
-                <input type="text" id="full-name-txt" formControlName="fullName" class="form-control" placeholder="Full name"  required>
+                <input type="text" id="full-name-txt" formControlName="fullName" class="form-control"
+                       [ngClass]="{ 'is-invalid': submitted && f.fullName.errors }" placeholder="Full name">
+                <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                  <div *ngIf="f.fullName.errors.required">Full name is required</div>
+                </div>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="last-name-txt">Last name</label>
               <div class="col-md-6">
-                <input type="text" id="last-name-txt" formControlName="lastName" class="form-control" placeholder="Last name"  required>
+                <input type="text" id="last-name-txt" formControlName="lastName" class="form-control"
+                       [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" placeholder="Last name">
+                <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                  <div *ngIf="f.lastName.errors.required">Last name is required</div>
+                </div>
               </div>
             </div>
 
@@ -125,24 +142,36 @@
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="gender-select">Gender</label>
               <div class="col-md-2">
-                <select id="gender-select" formControlName="gender" class="form-control" >
+                <select id="gender-select" formControlName="gender" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
                   <option *ngFor="let gender of genders" [ngValue]="gender">{{gender}}</option>
                 </select>
+                <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
+                  <div *ngIf="f.gender.errors.required">Gender is required</div>
+                </div>
               </div>
             </div>
 
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="race-select">Race</label>
               <div class="col-md-2">
-                <select id="race-select" formControlName="race" class="form-control" >
+                <select id="race-select" formControlName="race" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
                   <option *ngFor="let race of races" [ngValue]="race">{{race}}</option>
                 </select>
+                <div *ngIf="submitted && f.race.errors" class="invalid-feedback">
+                  <div *ngIf="f.race.errors.required">Race is required</div>
+                </div>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="birth-date-input">Birth date</label>
-              <div class="col-md-2">
-                <input class="form-control" id="birth-date-input" type="date" formControlName="birthDate" placeholder="date" >
+              <div class="col-md-4">
+                <input id="birth-date-input" type="date" formControlName="birthDate" class="form-control"
+                       [ngClass]="{ 'is-invalid': submitted && f.birthDate.errors }" placeholder="Birth date">
+                <div *ngIf="submitted && f.birthDate.errors" class="invalid-feedback">
+                  <div *ngIf="f.birthDate.errors.required">Birth date is required</div>
+                </div>
               </div>
             </div>
 
@@ -150,28 +179,38 @@
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="nationality-select">Nationality</label>
               <div class="col-md-2">
-                <select id="nationality-select" formControlName="nationality" class="form-control" [(ngModel)]="nationality">
+                <select id="nationality-select" formControlName="nationality" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.nationality.errors }" [(ngModel)]="nationality">
                   <option value="RSA">RSA</option>
                   <option value="Other">Other</option>
                 </select>
+                <div *ngIf="submitted && f.nationality.errors" class="invalid-feedback">
+                  <div *ngIf="f.nationality.errors.required">Nationality is required</div>
+                </div>
               </div>
             </div>
             <div class="form-group row" [hidden]="nationality=='RSA' || nationality==undefined">
               <label class="col-md-2 col-form-label" for="other-nationality-txt">Other nationality</label>
               <div class="col-md-6">
-                <input type="text" id="other-nationality-txt" formControlName="otherNationality" class="form-control" placeholder="nationality" required>
+                <input type="text" id="other-nationality-txt" formControlName="otherNationality" class="form-control" placeholder="nationality">
               </div>
             </div>
             <div class="form-group row" [hidden]="nationality=='Other'">
               <label class="col-md-2 col-form-label" for="id-number-txt">ID Number</label>
               <div class="col-md-6">
-                <input type="email" id="id-number-txt" formControlName="idNumber" class="form-control" placeholder="ID number" autocomplete="ID number"  required>
+                <input type="email" id="id-number-txt" formControlName="idNumber" class="form-control"
+                       [ngClass]="{ 'is-invalid': submitted && f.idNumber.errors && nationality !='Other'}" placeholder="ID number" autocomplete="ID number">
+                <div *ngIf="submitted && f.idNumber.errors" class="invalid-feedback">
+                  <div *ngIf="f.idNumber.errors.required">ID number is required</div>
+                  <div *ngIf="f.idNumber.errors.pattern">Only numbers allowed</div>
+                  <div *ngIf="f.idNumber.errors.minlength || f.idNumber.errors.maxlength">Ensure that id number is valid</div>
+                </div>
               </div>
             </div>
             <div class="form-group row" [hidden]="nationality=='RSA' || nationality==undefined">
               <label class="col-md-2 col-form-label" for="passport-number-txt">Passport Number</label>
               <div class="col-md-6">
-                <input type="text" id="passport-number-txt" formControlName="passportNumber" class="form-control" placeholder="Passport Number"  required>
+                <input type="text" id="passport-number-txt" formControlName="passportNumber" class="form-control" placeholder="Passport Number">
               </div>
             </div>
 
@@ -179,13 +218,23 @@
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="email-address-txt">Email Address</label>
               <div class="col-md-6">
-                <input type="email" id="email-address-txt" formControlName="emailAddress" class="form-control" placeholder="Email Address"  required>
+                <input type="email" id="email-address-txt" formControlName="emailAddress" class="form-control"
+                       [ngClass]="{ 'is-invalid': submitted && f.emailAddress.errors }" placeholder="Email Address">
+                <div *ngIf="submitted && f.emailAddress.errors" class="invalid-feedback">
+                  <div *ngIf="f.emailAddress.errors.required">Email address is required</div>
+                </div>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="phone-number-txt">Phone number</label>
               <div class="col-md-6">
-                <input type="email" id="phone-number-txt" formControlName="phoneNumber" class="form-control" placeholder="Phone Number"  required>
+                <input type="email" id="phone-number-txt" formControlName="phoneNumber" class="form-control"
+                       [ngClass]="{ 'is-invalid': submitted && f.phoneNumber.errors }" placeholder="Phone Number">
+                <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                  <div *ngIf="f.phoneNumber.errors.required">Phone number is required</div>
+                  <div *ngIf="f.phoneNumber.errors.pattern">Only numbers allowed</div>
+                  <div *ngIf="f.phoneNumber.errors.minlength || f.phoneNumber.errors.maxlength">Enter valid phone number</div>
+                </div>
               </div>
             </div>
 
@@ -193,80 +242,59 @@
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="home-address-no-txt">Physical Address</label>
               <div class="col-md-6">
-                <input type="email" id="home-address-no-txt" formControlName="houseNo" class="form-control" placeholder="House no or Unit no."  required>
+                <input type="email" id="home-address-no-txt" formControlName="houseNo" class="form-control"
+                       [ngClass]="{ 'is-invalid': submitted && f.houseNo.errors }" placeholder="House no or Unit no.">
+                <div *ngIf="submitted && f.houseNo.errors" class="invalid-feedback">
+                  <div *ngIf="f.houseNo.errors.required">House no. is required</div>
+                </div>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="home-address-street-txt"></label>
               <div class="col-md-6">
-                <input type="email" id="home-address-street-txt" formControlName="streetNo" class="form-control" placeholder="Street address, Building name e.t.c"  required>
+                <input type="email" id="home-address-street-txt" formControlName="streetNo" class="form-control"
+                       [ngClass]="{ 'is-invalid': submitted && f.streetNo.errors }" placeholder="Street address, Building name e.t.c">
+                <div *ngIf="submitted && f.streetNo.errors" class="invalid-feedback">
+                  <div *ngIf="f.streetNo.errors.required">Street no. is required</div>
+                </div>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="home-address-city-txt"></label>
               <div class="col-md-6">
-                <input type="email" id="home-address-city-txt" formControlName="city" class="form-control" placeholder="City e,g Pretoria"  required>
+                <input type="email" id="home-address-city-txt" formControlName="city" class="form-control"
+                       [ngClass]="{ 'is-invalid': submitted && f.city.errors }" placeholder="City e,g Pretoria">
+                <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+                  <div *ngIf="f.city.errors.required">City name is required</div>
+                </div>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="home-address-code-txt"></label>
               <div class="col-md-6">
-                <input type="email" id="home-address-code-txt" formControlName="cityCode" class="form-control" placeholder="City code"  required>
+                <input type="email" id="home-address-code-txt" formControlName="cityCode" class="form-control"
+                       [ngClass]="{ 'is-invalid': submitted && f.cityCode.errors }" placeholder="City code">
+                <div *ngIf="submitted && f.cityCode.errors" class="invalid-feedback">
+                  <div *ngIf="f.cityCode.errors.required">City code is required</div>
+                  <div *ngIf="f.cityCode.errors.pattern">City code must be a number</div>
+                </div>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-2 col-form-label" for="home-address-province-select"></label>
               <div class="col-md-2">
-                <select id="home-address-province-select" formControlName="province" class="form-control"  required>
+                <select id="home-address-province-select" formControlName="province" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.province.errors }" >
                   <option *ngFor="let province of provinces" [ngValue]="province">{{province}}</option>
                 </select>
+                <div *ngIf="submitted && f.province.errors" class="invalid-feedback">
+                  <div *ngIf="f.province.errors.required">Province is required</div>
+                </div>
               </div>
             </div>
-<!--           To be added later -->
-<!--            <div class="card">-->
-<!--              <div class="card-header">-->
-<!--                <strong>Guardian details:</strong>-->
-<!--              </div>-->
-<!--              <div class="card-body">-->
-<!--                <div class="form-group row">-->
-<!--                  <label class="col-md-2 col-form-label" for="guardian-title-select">Title</label>-->
-<!--                  <div class="col-md-2">-->
-<!--                    <select id="guardian-title-select" name="guardian-title" class="form-control" ngModel required>-->
-<!--                      <option value="0">Bind to DB</option>-->
-<!--                    </select>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--                <div class="form-group row">-->
-<!--                  <label class="col-md-2 col-form-label" for="guardian-initials-txt">Initials</label>-->
-<!--                  <div class="col-md-6">-->
-<!--                    <input type="text" id="guardian-initials-txt" name="guardian-initials" class="form-control" placeholder="Guardian initials e.g K.C.J" ngModel required>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                <div class="form-group row">-->
-<!--                  <label class="col-md-2 col-form-label" for="guardian-last-name-txt">Last name</label>-->
-<!--                  <div class="col-md-6">-->
-<!--                    <input type="text" id="guardian-last-name-txt" name="guardian-last-name" class="form-control" placeholder="Guardian last name" ngModel required>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                <div class="form-group row">-->
-<!--                  <label class="col-md-2 col-form-label" for="guardian-email-address-txt">Email Address</label>-->
-<!--                  <div class="col-md-6">-->
-<!--                    <input type="email" id="guardian-email-address-txt" name="guardian-email-address" class="form-control" placeholder="Email Address" autocomplete="email">-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--                <div class="form-group row">-->
-<!--                  <label class="col-md-2 col-form-label" for="guardian-phone-number-txt">Phone number</label>-->
-<!--                  <div class="col-md-6">-->
-<!--                    <input type="email" id="guardian-phone-number-txt" name="guardian-phone-number" class="form-control" placeholder="Phone Number" autocomplete="email">-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
             <div class="">
               <button type="submit" class="btn btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
-              <button type="reset" class="btn btn-danger"><i class="fa fa-ban"></i> Reset</button>
+              <button type="reset" class="btn btn-danger" (click)="onReset()"><i class="fa fa-ban"></i> Reset</button>
             </div>
           </form>
         </div>
