@@ -47,7 +47,7 @@ public class UserResource {
     }
 
     @RequestMapping(path = "/deactivate/{userNumber}", method = RequestMethod.POST)
-    public String deactivateUser(@PathVariable("userNumber") String userNumber) {
+    public boolean deactivateUser(@PathVariable("userNumber") String userNumber) {
         return userService.deactivateUser(userNumber);
     }
 

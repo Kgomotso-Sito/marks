@@ -34,14 +34,14 @@ public class UserService {
         return userRepository.saveAndFlush(user);
     }
 
-    public String deactivateUser(String userNumber) {
+    public boolean deactivateUser(String userNumber) {
         User user = findByUserNumber(userNumber);
         if(user == null) {
-            return "User not exist";
+           return false;
         } else {
             user.setActive(Boolean.FALSE);
             createOrUpdate(user);
-            return "User deactivated";
+            return true;
         }
     }
 
