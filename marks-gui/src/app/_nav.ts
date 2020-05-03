@@ -29,7 +29,7 @@ export const navItems: INavData[] = [
     ]
   },
 
-  {
+  /*{
     name: 'Subjects',
     url: '/subjects',
     icon: 'icon-notebook',
@@ -61,5 +61,5 @@ export const navItems: INavData[] = [
         icon: 'icon-note'
       }
     ]
-  }
+  }*/
 ];
