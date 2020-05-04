@@ -5,31 +5,33 @@
         <div class="col-md-6 mx-auto">
           <div class="card mx-4">
             <div class="card-body p-4">
-              <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+              <form [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm.value)" enctype="multipart/form-data" >
                 <h1>Register</h1>
                 <p class="text-muted">Create your account</p>
-                <div class="alert alert-danger" *ngIf="error">
-                  <p>{{ error }}</p>
+                <div class="alert alert-danger" *ngIf="success">
+                  <p>{{ message }}</p>
                 </div>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="icon-user"></i></span>
                   </div>
-                  <input type="text" class="form-control" placeholder="Username" autocomplete="username" required>
+                  <input type="text" class="form-control" formControlName="schoolId"
+                         [ngClass]="{ 'is-invalid': submitted && f.schoolId.errors }" placeholder="School ID e.g L20244040">
+                  <div *ngIf="submitted && f.schoolId.errors" class="invalid-feedback">
+                    <div *ngIf="f.schoolId.errors.required">School Id is required</div>
+                    <div *ngIf="f.schoolId.errors.minlength || f.schoolId.errors.maxlength">Ensure that id number is valid, e.g L20244040</div>
+                  </div>
                 </div>
-                <div class="input-group mb-3">
+                <div class="input-group mb-4">
                   <div class="input-group-prepend">
                     <span class="input-group-text">@</span>
                   </div>
-                  <input
-                    type="text"
-                    id="email"
-                    name="email"
-                    class="form-control"
-                    ngModel
-                    placeholder="Email"
-                    autocomplete="email"
-                    required>
+                  <input type="text" class="form-control" formControlName="email"
+                         [ngClass]="{ 'is-invalid': submitted && f.email.errors }" placeholder="Email address">
+                  <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                    <div *ngIf="f.email.errors.required">Email is required</div>
+                    <div *ngIf="f.email.errors.email">Ensure email is valid</div>
+                  </div>
                 </div>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
@@ -40,11 +42,13 @@
                     id="password"
                     name="password"
                     class="form-control"
-                    ngModel
+                    formControlName="password"
                     placeholder="Password"
-                    autocomplete="new-password"
-                    minlength="6"
-                    required>
+                    [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                  <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <div *ngIf="f.password.errors.required">Password is required</div>
+                    <div *ngIf="f.password.errors.minlength">Password is too short</div>
+                  </div>
                 </div>
                 <div class="input-group mb-4">
                   <div class="input-group-prepend">
@@ -55,16 +59,18 @@
                     id="confirm-password"
                     name="confirm-password"
                     class="form-control"
-                    ngModel
+                    formControlName="confirmPassword"
                     placeholder="Repeat password"
-                    autocomplete="new-password"
-                    minlength="6"
-                    required>
+                    [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }">
+                    <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                      <div *ngIf="f.confirmPassword.errors.required">Confirm password is required</div>
+                      <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
+                    </div>
                 </div>
                 <button
                   type="submit"
                   class="btn btn-block btn-success"
-                  [disabled]="!registerForm.valid"
+
                 >Create Account</button>
                 <a [routerLink]="['/login']" class="float-right">
                   Log in page

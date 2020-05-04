@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {LoginService} from "../login/login.service";
-import {NgForm} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Observable} from "rxjs";
 
 
@@ -18,18 +18,37 @@ interface AuthResponseData {
   selector: 'app-dashboard',
   templateUrl: 'login.component.html'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   error: string = null;
-  offlineDebug: boolean = false;
+  offlineDebug: boolean = true;
+  private submitted: boolean = false;
 
-  constructor(private router: Router, private loginService: LoginService) { }
+  loginForm: FormGroup;
 
-  onSubmit(form: NgForm) {
-    if (!form.valid) {
+  constructor(private router: Router, private loginService: LoginService, private formBuilder: FormBuilder){}
+
+  ngOnInit() {
+    this.initialiseForm();
+  }
+
+  initialiseForm() {
+    this.loginForm = this.formBuilder.group(
+        {
+          email : this.formBuilder.control("", [Validators.required,
+           Validators.email]),
+          password : this.formBuilder.control("", [Validators.required,
+            Validators.minLength(5)])
+        }
+    )};
+
+  onSubmit(data) {
+    this.submitted = true;
+
+    if (!this.loginForm.valid) {
       return;
     }
-    const email = form.value.email;
-    const password = form.value.password;
+    const email = data.email;
+    const password = data.password;
 
     if(this.offlineDebug) {
       let authObs: Observable<AuthResponseData>;
@@ -39,7 +58,7 @@ export class LoginComponent {
       authObs.subscribe(
         resData => {
           console.log(resData);
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/users/admin']);
         },
         errorMessage => {
           console.log(errorMessage);
@@ -47,11 +66,12 @@ export class LoginComponent {
         }
       );
 
-      form.reset();
+      this.loginForm.reset();
     } else {
-        this.router.navigate(['/dashboard']);//
+        //this.router.navigate(['/dashboard']);//
     }
   }
+  get f() { return this.loginForm.controls; }
 
   goToRegister() {
     this.router.navigate(['/register']);
