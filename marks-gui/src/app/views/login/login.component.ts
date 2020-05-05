@@ -51,7 +51,15 @@ export class LoginComponent implements OnInit{
     if(this.offlineDebug) {
       this.loginService.login(formData.email, formData.password).then(
           () => {
-            this.router.navigate(['/users/admin']);
+            this.loginService.getToken().subscribe(
+                data => {
+                  console.log(data.token);
+                  localStorage.setItem("token", data.token);
+                  this.router.navigate(['/users/admin']);
+                },
+                err => console.error(err)
+            );
+
           }
       ).catch(errorMessage => {
         this.loading = false;
@@ -63,6 +71,8 @@ export class LoginComponent implements OnInit{
     } else {
         //this.router.navigate(['/dashboard']);//
     }
+    console.log(this.loginService.getToken());
+
   }
   get f() { return this.loginForm.controls; }
 

@@ -17,6 +17,32 @@ export class LoginService {
     return this.firebaseAuth.signInWithEmailAndPassword(email,password);
   }
 
+  getToken() {
+    return this.firebaseAuth.idTokenResult;
+  }
+
+  verifyToken() : boolean {
+    let validToken : boolean = false;
+    this.getToken().subscribe(
+        data => {
+          validToken = this.getTokenFromLocalStorage() == (data.token);
+          console.log(validToken);
+        });
+    return validToken;
+  }
+
+  getTokenFromLocalStorage() {
+    return localStorage.getItem("token");
+  }
+
+  loggedIn() {
+    return !!localStorage.getItem("token");
+  }
+
+  logout() {
+    return localStorage.removeItem("token");
+  }
+
   public handleError(errorRes: any) {
     let errorMessage = 'An unknown error occurred!';
 

@@ -35,8 +35,10 @@ import { AppRoutingModule } from './app.routing';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule, HttpInterceptor} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {AuthGuard} from "./guard/auth.guard";
+import { TokenInterceptorService} from "./guard/token-interceptor.service";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAj2_PMg04PEWv14ClZ4OIZP6ZlGEB1r-Y",
@@ -79,7 +81,12 @@ const firebaseConfig = {
   providers: [{
     provide: LocationStrategy,
     useClass: HashLocationStrategy,
-  }],
+  }, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+  }
+  , AuthGuard],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
