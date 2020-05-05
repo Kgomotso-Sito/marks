@@ -1,0 +1,117 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              <strong>Subjects:</strong>
+            </div>
+            <div class="card-body">
+              <table class="table table-bordered table-striped ">
+                <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Name</th>
+                  <th>Average</th>
+                  <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>Math</td>
+                  <td>Mathematics</td>
+                  <td>
+                    <span class="badge badge-success">Good</span>
+                  </td>
+                  <td>
+                    <span class="badge badge-danger">Inactive</span>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!--/.col-->
+      </div>
+
+      <!--View update admin details-->
+      <div class="card">
+        <div class="card-header">
+          <strong>Add Subject:</strong>
+        </div>
+        <div class="card-body">
+          <form #form='ngForm' (ngSubmit)='submitForm(form.value)' enctype="multipart/form-data" class="form-horizontal">
+
+            <div class="form-group row">
+              <label class="col-md-2 col-form-label" for="subject-code-txt">Code</label>
+              <div class="col-md-6">
+                <input type="text" id="subject-code-txt" name="subject-code" class="form-control" placeholder="Code" ngModel required>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-2 col-form-label" for="subject-name-txt">Name</label>
+              <div class="col-md-6">
+                <input type="text" id="subject-name-txt" name="subject-name" class="form-control" placeholder="Subject name" ngModel required>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-2 col-form-label" for="description-input">Textarea</label>
+              <div class="col-md-6">
+                <textarea id="description-input" name="description" rows="5" class="form-control" placeholder="Subject description.."></textarea>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-header">
+                    <strong>Assessment:</strong>
+                  </div>
+                  <div class="card-body">
+                    <table class="table table-bordered table-striped ">
+                      <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>CAS Weigh %</th>
+                        <th>Actions</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let assessment of assessments; let i = index;">
+                        <td>
+                          <input [(ngModel)]="assessments[i].name"  type="text" id="assessment-name-txt" name="assessment-name" class="form-control" placeholder="Assessment name e.g Class Test 1" ngModel required>
+                        </td>
+                        <td>
+                          <input [(ngModel)]="assessments[i].date" class="form-control" id="birth-date-input" type="date" name="birth-date" placeholder="Date of assessment">
+                        </td>
+                        <td>
+                          <input [(ngModel)]="assessments[i].name" type="text" id="cas-weigh-txt" name="cas-weigh" class="form-control" placeholder="CAS Weigh in %" ngModel required>
+                        </td>
+                        <td>
+                            <i (click)="addAssessment(i)" class="icon-plus icons font-3xl"></i>
+                            <i>&nbsp;&nbsp;</i>
+                            <i (click)="deleteAssessment(i)" class="icon-close icons font-3xl"></i>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <!--/.col-->
+            </div>
+            <div class="">
+              <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+              <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div> <!--/.col-->
+  </div><!--/.row-->
+</div>
