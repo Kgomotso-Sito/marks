@@ -4,12 +4,7 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true
-};
+import { AngularFireModule } from '@angular/fire';
 
 import { AppComponent } from './app.component';
 
@@ -40,26 +35,41 @@ import { AppRoutingModule } from './app.routing';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
-import {HttpClientModule} from "@angular/common/http";
-import {FormsModule} from "@angular/forms";
+import {HTTP_INTERCEPTORS, HttpClientModule, HttpInterceptor} from "@angular/common/http";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {AuthGuard} from "./guard/auth.guard";
+import { TokenInterceptorService} from "./guard/token-interceptor.service";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAj2_PMg04PEWv14ClZ4OIZP6ZlGEB1r-Y",
+    authDomain: "marks-authentication.firebaseapp.com",
+    databaseURL: "https://marks-authentication.firebaseio.com",
+    projectId: "marks-authentication",
+    storageBucket: "marks-authentication.appspot.com",
+    messagingSenderId: "955619129904",
+    appId: "1:955619129904:web:f43154076d4bc6067e4bf5",
+    measurementId: "G-HJNLYDJMHJ"
+};
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    AppAsideModule,
-    AppBreadcrumbModule.forRoot(),
-    AppFooterModule,
-    AppHeaderModule,
-    AppSidebarModule,
-    PerfectScrollbarModule,
-    BsDropdownModule.forRoot(),
-    TabsModule.forRoot(),
-    ChartsModule,
-    HttpClientModule,
-    FormsModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        AppAsideModule,
+        AppBreadcrumbModule.forRoot(),
+        AppFooterModule,
+        AppHeaderModule,
+        AppSidebarModule,
+        PerfectScrollbarModule,
+        BsDropdownModule.forRoot(),
+        TabsModule.forRoot(),
+        ChartsModule,
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AngularFireModule.initializeApp(firebaseConfig)
+    ],
   declarations: [
     AppComponent,
     ...APP_CONTAINERS,
@@ -71,7 +81,12 @@ import {FormsModule} from "@angular/forms";
   providers: [{
     provide: LocationStrategy,
     useClass: HashLocationStrategy,
-  }],
+  }, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+  }
+  , AuthGuard],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

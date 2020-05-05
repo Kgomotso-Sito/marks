@@ -6,43 +6,46 @@
           <div class="card-group">
             <div class="card p-4">
               <div class="card-body">
-                <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
                   <h1>Login</h1>
                   <p class="text-muted">Sign In to your account</p>
+                  <div class="alert alert-danger" *ngIf="!success">
+                    <p>{{ error }}</p>
+                  </div>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="icon-user"></i></span>
+                      <span class="input-group-text">@</span>
                     </div>
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="email"
-                      name="email"
-                      ngModel
-                      placeholder="email"
-                      autocomplete="email" required>
+                    <input type="text" name="email" class="form-control" formControlName="email"
+                           [ngClass]="{ 'is-invalid': submitted && f.email.errors }" placeholder="Email address">
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                      <div *ngIf="f.email.errors.required">Email is required</div>
+                      <div *ngIf="f.email.errors.email">Ensure email is valid</div>
+                    </div>
                   </div>
                   <div class="input-group mb-4">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="icon-lock"></i></span>
                     </div>
                     <input
-                      type="password"
-                      class="form-control"
-                      id="password"
-                      name="password"
-                      ngModel
-                      placeholder="Password"
-                      autocomplete="current-password"
-                      required>
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-control"
+                            formControlName="password"
+                            placeholder="Password"
+                            [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                      <div *ngIf="f.password.errors.required">Password is required</div>
+                      <div *ngIf="f.password.errors.minlength">Password is too short</div>
+                    </div>
                   </div>
                   <div class="row">
                     <div class="col-6">
-                      <button
-                        type="submit"
-                        class="btn btn-primary px-4"
-                        [disabled]="!loginForm.valid"
-                      >Login</button>
+                      <button class="btn btn-primary" type="submit">
+                        <span class="{{loading? 'spinner-border spinner-border-sm': ''}}" role="status" aria-hidden="true"></span>
+                        {{loading? "Logging in...": "Login"}}
+                      </button>
                     </div>
                     <div class="col-6 text-right">
                       <button type="button" class="btn btn-link px-0">Forgot password?</button>

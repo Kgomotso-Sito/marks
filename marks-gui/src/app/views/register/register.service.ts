@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import {UserService} from "../users/user.service";
+
 
 interface AuthResponseData {
   kind: string;
@@ -14,12 +16,12 @@ interface AuthResponseData {
 
 @Injectable({ providedIn: 'root' })
 export class RegisterService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userService: UserService) {}
 
   signup(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCcZ9MGI9s9sPCqdTxmBmxsFykjx3S_xv0',
+        'https://identitytoolkit.googleapis.com/v1/accounts:signNewUp?key=AIzaSyCcZ9MGI9s9sPCqdTxmBmxsFykjx3S_xv0',
         {
           email: email,
           password: password,
@@ -39,5 +41,9 @@ export class RegisterService {
           return throwError(errorMessage);
         })
       );
+  }
+
+  checkIfUserExists(userId: string) {
+      return this.userService.getUserByUserId(userId);
   }
 }
