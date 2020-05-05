@@ -12,7 +12,7 @@ import { RegisterComponent } from './views/register/register.component';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'users',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
@@ -64,7 +64,7 @@ export const routes: Routes = [
       }
     ]
   },
-  { path: '**', component: P404Component }
+  { path: '**', component: LoginComponent }
 ];
 
 @NgModule({

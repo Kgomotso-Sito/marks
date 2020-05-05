@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {RegisterService} from "./register.service";
+import {AngularFireAuth} from "@angular/fire/auth";
 
 @Component({
   selector: 'app-dashboard',
@@ -9,13 +10,13 @@ import {RegisterService} from "./register.service";
 export class RegisterComponent implements OnInit{
   registerForm: FormGroup;
   isLoginMode = false;
-  isLoading = false;
+  isLoading: boolean = false;
   message: string;
   success: boolean = false;
 
-  private submitted: boolean = false;
+  submitted: boolean = false;
 
-  constructor(private registerService: RegisterService, private formBuilder: FormBuilder){
+  constructor(private registerService: RegisterService, private formBuilder: FormBuilder, private firebaseAuth: AngularFireAuth){
   }
 
   ngOnInit() {
@@ -68,32 +69,56 @@ export class RegisterComponent implements OnInit{
     return invalid;
   }
 
-  onSubmit(data) {
-    this.submitted = true;
-    this.success = false;
+  onSubmit(formData) {
+    this.submitted = false;
+
     if (!this.registerForm.valid) {
-      console.log("This field " + this.findInvalidControls() + " is invalid");
+      this.submitted = true;
       return;
     }
-    const email = data.email;
-    const password = data.password;
 
     this.isLoading = true;
-
-    this.registerService.signup(email, password).subscribe(
-      resData => {
-        console.log(resData);
-        this.message = "User account was created, you can go log in now";
-        this.success = true;
-        this.isLoading = false;
-      },
-      errorMessage => {
-        console.log(errorMessage);
-        this.message = errorMessage;
-        this.isLoading = false;
-      }
+    this.registerService.checkIfUserExists(formData.schoolId).subscribe(
+        data => {
+          this.submitted = true;
+          if(data == null) {
+            console.log("User does not exist");
+            this.message = "School ID does not exist, please contact school admin";
+            this.success = false;
+            this.isLoading = false;
+          } else {
+            console.log("User exists");
+            this.success = true;
+            this.registerUser(formData.email, formData.password);
+            this.registerForm.reset();
+          }
+        },
+        err => console.error(err),
+        () => {
+          console.log('Done fetching admin user');
+        }
     );
 
-    this.registerForm.reset();
+
+  }
+
+  registerUser(email: string, password: string) {
+    this.firebaseAuth
+        .createUserWithEmailAndPassword(email, password).then(
+        resData => {
+          console.log(resData);
+          this.message = "User account was created, you can go log in now";
+          this.success = true;
+          this.isLoading = false;
+          this.registerForm.reset();
+        })
+        .catch (errorMessage=> {
+          this.submitted = true;
+          console.log(errorMessage);
+          this.success = false;
+          this.message = errorMessage;
+          this.isLoading = false;
+        }
+    );
   }
 }

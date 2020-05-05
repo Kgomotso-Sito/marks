@@ -2,17 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {LoginService} from "../login/login.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Observable} from "rxjs";
+import {AngularFireAuth} from "@angular/fire/auth";
 
-
-interface AuthResponseData {
-  kind: string;
-  idToken: string;
-  email: string;
-  refreshToken: string;
-  expiresIn: string;
-  localId: string;
-}
 
 @Component({
   selector: 'app-dashboard',
@@ -22,12 +13,20 @@ export class LoginComponent implements OnInit{
   error: string = null;
   offlineDebug: boolean = true;
   private submitted: boolean = false;
+  private success: boolean = true;
+  private loading: boolean = false;
 
   loginForm: FormGroup;
 
-  constructor(private router: Router, private loginService: LoginService, private formBuilder: FormBuilder){}
+  constructor(private router: Router, private loginService: LoginService, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
+      /*if (this.firebaseAuth.currentUser) {
+        console.log(this.firebaseAuth.currentUser)
+        this.router.navigateByUrl('/users/admin');
+      } else {
+        this.initialiseForm();
+      }*/
     this.initialiseForm();
   }
 
@@ -41,31 +40,25 @@ export class LoginComponent implements OnInit{
         }
     )};
 
-  onSubmit(data) {
-    this.submitted = true;
+  onSubmit(formData) {
+    this.submitted = false;
 
     if (!this.loginForm.valid) {
+      this.submitted = true;
       return;
     }
-    const email = data.email;
-    const password = data.password;
-
+    this.loading = true;
     if(this.offlineDebug) {
-      let authObs: Observable<AuthResponseData>;
-
-      authObs = this.loginService.login(email, password);
-
-      authObs.subscribe(
-        resData => {
-          console.log(resData);
-          this.router.navigate(['/users/admin']);
-        },
-        errorMessage => {
-          console.log(errorMessage);
-          this.error = errorMessage;
-        }
-      );
-
+      this.loginService.login(formData.email, formData.password).then(
+          () => {
+            this.router.navigate(['/users/admin']);
+          }
+      ).catch(errorMessage => {
+        this.loading = false;
+        console.log(errorMessage);
+        this.success = false;
+        this.error = this.loginService.handleError(errorMessage);
+      });
       this.loginForm.reset();
     } else {
         //this.router.navigate(['/dashboard']);//

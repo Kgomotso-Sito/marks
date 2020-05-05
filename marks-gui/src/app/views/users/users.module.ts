@@ -14,8 +14,6 @@ import { UsersRoutingModule } from './users-routing-module';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import {ModalModule, TooltipModule} from "ngx-bootstrap";
 
-
-
 @NgModule({
     imports: [
         CommonModule,
@@ -25,7 +23,7 @@ import {ModalModule, TooltipModule} from "ngx-bootstrap";
         TabsModule.forRoot(),
         ReactiveFormsModule,
         ModalModule.forRoot(),
-        TooltipModule.forRoot(),
+        TooltipModule.forRoot()
     ],
   declarations: [
     AdminComponent,

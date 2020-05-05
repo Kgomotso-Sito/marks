@@ -4,6 +4,7 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { AngularFireModule } from '@angular/fire';
 
 import { AppComponent } from './app.component';
 
@@ -37,6 +38,17 @@ import { ChartsModule } from 'ng2-charts';
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
+const firebaseConfig = {
+    apiKey: "AIzaSyAj2_PMg04PEWv14ClZ4OIZP6ZlGEB1r-Y",
+    authDomain: "marks-authentication.firebaseapp.com",
+    databaseURL: "https://marks-authentication.firebaseio.com",
+    projectId: "marks-authentication",
+    storageBucket: "marks-authentication.appspot.com",
+    messagingSenderId: "955619129904",
+    appId: "1:955619129904:web:f43154076d4bc6067e4bf5",
+    measurementId: "G-HJNLYDJMHJ"
+};
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -53,7 +65,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
         ChartsModule,
         HttpClientModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        AngularFireModule.initializeApp(firebaseConfig)
     ],
   declarations: [
     AppComponent,
