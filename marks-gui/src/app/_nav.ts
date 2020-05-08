@@ -29,12 +29,12 @@ export const navItems: INavData[] = [
     ]
   },
 
-  /*{
+  {
     name: 'Subjects',
     url: '/subjects',
     icon: 'icon-notebook',
   },
-
+/*
   {
     name: 'Marks',
     url: '/marks',
