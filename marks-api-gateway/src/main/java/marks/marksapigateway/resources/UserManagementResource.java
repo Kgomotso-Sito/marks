@@ -47,7 +47,7 @@ public class UserManagementResource {
     }
 
     @RequestMapping(path = "/deactivate/{userNumber}")
-    public String deactivateUser(@PathVariable("userNumber") String userNumber) {
-        return restTemplate.postForObject(URL + "/deactivate/" + userNumber, null ,String.class);
+    public boolean deactivateUser(@PathVariable("userNumber") String userNumber) {
+        return restTemplate.postForObject(URL + "/deactivate/" + userNumber, null , Boolean.class);
     }
 }
