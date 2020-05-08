@@ -1,15 +1,4 @@
-<<<<<<< HEAD
-.DS_Store
-marks-gui/node_modules/
-marks-gui/marks-gui.iml
-marks-gui/.editorconfig
-marks-gui/.idea/
-
 HELP.md
-=======
-HELP.md
-.DS_Store
->>>>>>> microservices-registery
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
@@ -40,7 +29,3 @@ build/
 
 ### VS Code ###
 .vscode/
-<<<<<<< HEAD
-
-=======
->>>>>>> microservices-registery
