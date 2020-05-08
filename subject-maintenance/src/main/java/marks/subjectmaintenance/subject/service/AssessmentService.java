@@ -29,7 +29,7 @@ public class AssessmentService {
 
     public boolean deactivateAssessment(int assessmentId) {
         Assessment assessment = assessmentRepository.findAssessmentById(assessmentId);
-        if(assessment == null) {
+        if (assessment == null) {
             return false;
         } else {
             assessment.setActive(Boolean.FALSE);
@@ -38,9 +38,15 @@ public class AssessmentService {
         }
     }
 
-    public AssessmentList findAllAssessment(){ return new AssessmentList(assessmentRepository.findAll());
+    public AssessmentList findAllAssessment() {
+        return new AssessmentList(assessmentRepository.findAll());
     }
 
-    public AssessmentList findAllActiveAssessment(){ return new AssessmentList(assessmentRepository.findAllByActive(Boolean.TRUE));
+    public AssessmentList findAllActiveAssessment() {
+        return new AssessmentList(assessmentRepository.findAllByActive(Boolean.TRUE));
+    }
+
+    public AssessmentList findAllAssessmentBySubject(Subject subject) {
+        return new AssessmentList(assessmentRepository.findAllBySubject(subject));
     }
 }

@@ -24,12 +24,12 @@ public class SubjectResource {
     }
 
     @RequestMapping("/{subjectId}")
-    public Subject getSubjectBySubjectNumber(@PathVariable("subjectId") int subjectId) {
+    public Subject getSubjectById(@PathVariable("subjectId") int subjectId) {
         return subjectService.findBySubjectById(subjectId);
     }
 
     @RequestMapping("/all")
-    public SubjectList getAllSubjectsById(){
+    public SubjectList getAllSubjects(){
         return subjectService.findAllSubjects();
     }
 
@@ -42,5 +42,7 @@ public class SubjectResource {
     public boolean deactivateSubject(@PathVariable("subjectId") int subjectId) {
         return subjectService.deactivateSubject(subjectId);
     }
+
+
 
 }

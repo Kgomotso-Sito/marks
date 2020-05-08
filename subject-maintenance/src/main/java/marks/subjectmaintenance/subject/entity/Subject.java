@@ -16,7 +16,7 @@ public class Subject {
     @Column(nullable = false, columnDefinition = "boolean default true")
     private Boolean active = Boolean.TRUE;
 
-    @OneToMany(mappedBy = "subject", fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, orphanRemoval=true)
+    @OneToMany(mappedBy = "subject", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     private List<Assessment> assessmentList;
 
     public Subject() {

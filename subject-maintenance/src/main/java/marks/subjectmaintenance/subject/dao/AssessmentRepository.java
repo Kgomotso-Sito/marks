@@ -9,4 +9,5 @@ import java.util.List;
 public interface AssessmentRepository extends JpaRepository<Assessment, Integer> {
     Assessment findAssessmentById(int assessmentId);
     List<Assessment> findAllByActive(Boolean active);
+    List<Assessment> findAllBySubject(Subject subject);
 }
