@@ -1,0 +1,55 @@
+package marks.marksapigateway.resources;
+
+import marks.marksapigateway.models.subject.dto.SubjectList;
+import marks.marksapigateway.models.subject.entity.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
+
+
+@RestController
+@RequestMapping("/subjects")
+@CrossOrigin(origins="*", maxAge=3600)
+public class SubjectMaintenanceResource {
+
+    private String URL= "http://subject-maintenance/subjects";
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @RequestMapping(path = "/create", method = RequestMethod.POST, consumes = "application/json")
+    public boolean createSubject(@RequestBody Subject subject){
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Subject> entity = new HttpEntity<>(subject, headers);
+
+        ResponseEntity<String> result = restTemplate.postForEntity(URL + "/create", entity, String.class);
+
+        return (result.getStatusCodeValue() == 201 || result.getStatusCodeValue() == 200);
+    }
+
+    @RequestMapping(path = "/all", produces = "application/json")
+    public List<Subject> findAll() {
+        SubjectList subjectList = restTemplate.getForObject(URL + "/all", SubjectList.class);
+        return subjectList.getSubjects();
+    }
+
+    @RequestMapping(path = "/{subjectId}", method = RequestMethod.GET)
+    public Subject findSubjectById(@PathVariable("subjectId") String subjectId) {
+        Subject subject = restTemplate.getForObject(URL + "/" + subjectId, Subject.class);
+        return subject;
+    }
+
+    @RequestMapping(path = "/deactivate/{subjectId}")
+    public boolean deactivateSubject(@PathVariable("subjectId") String subjectId) {
+        return restTemplate.postForObject(URL + "/deactivate/" + subjectId, null , Boolean.class);
+    }
+}
