@@ -2,17 +2,26 @@ package marks.subjectmaintenance.subject.service;
 
 import marks.subjectmaintenance.subject.dao.SubjectRepository;
 import marks.subjectmaintenance.subject.dto.SubjectList;
+import marks.subjectmaintenance.subject.dto.UserSubjectList;
 import marks.subjectmaintenance.subject.entity.Subject;
+import marks.subjectmaintenance.subject.entity.UserSubject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SubjectService {
 
     @Autowired
     private SubjectRepository subjectRepository;
+
     @Autowired
     private AssessmentService assessmentService;
+
+    @Autowired
+    private UserSubjectService userSubjectService;
 
     public Subject findBySubjectById(int subjectId)  {
         Subject subject = subjectRepository.findSubjectById(subjectId);
@@ -47,4 +56,16 @@ public class SubjectService {
     public SubjectList findAllActiveSubjects(){ return new SubjectList(subjectRepository.findAllByActive(Boolean.TRUE));
     }
 
+    public SubjectList findAllSubjectsByUser(int userId){
+        UserSubjectList userSubjectsList = userSubjectService.findAllUserSubjectsByUserId(userId);
+        List<Subject> userSubjects = new ArrayList<>();
+
+        userSubjectsList.getUserSubjects().forEach(userSubject -> {
+            if(userSubject.getRegistered()) {
+                userSubjects.add(subjectRepository.findSubjectById(userSubject.getUserSubjectId().getSubjectId()));
+            }
+        });
+
+        return new SubjectList(userSubjects);
+    }
 }

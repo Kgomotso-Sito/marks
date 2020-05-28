@@ -43,6 +43,8 @@ public class SubjectResource {
         return subjectService.deactivateSubject(subjectId);
     }
 
-
-
+    @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
+    public SubjectList getAllSubjectsByUser(@PathVariable("userId") int userId){
+        return subjectService.findAllSubjectsByUser(userId);
+    }
 }
