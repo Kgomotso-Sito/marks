@@ -33,8 +33,19 @@ export const navItems: INavData[] = [
     name: 'Subjects',
     url: '/subjects',
     icon: 'icon-notebook',
+    children: [
+      {
+        name: 'Subject Management',
+        url: '/subjects/subjects',
+        icon: 'icon-notebook'
+      },
+      {
+        name: 'Student Enrollment',
+        url: '/subjects/enrollment',
+        icon: 'icon-user-follow'
+      }
+    ]
   },
-/*
   {
     name: 'Marks',
     url: '/marks',
@@ -61,5 +72,5 @@ export const navItems: INavData[] = [
         icon: 'icon-note'
       }
     ]
-  }*/
+  }
 ];
