@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../users/user.service";
 import {User} from "../../users/user.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UserSubjectId} from "../models/user-subject.model";
 import {SubjectService} from "../subject.service";
 import {Subject} from "../models/subjects.model";
 import {Observable} from "rxjs";
