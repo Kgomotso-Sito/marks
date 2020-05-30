@@ -1,5 +1,5 @@
 export class Assessment {
-  id:string;
+  id:number;
   name:string;
   date:Date;
   total:number;

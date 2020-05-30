@@ -35,7 +35,7 @@ export const navItems: INavData[] = [
     icon: 'icon-notebook',
     children: [
       {
-        name: 'Subject Management',
+        name: 'View Subjects',
         url: '/subjects/subjects',
         icon: 'icon-notebook'
       },
