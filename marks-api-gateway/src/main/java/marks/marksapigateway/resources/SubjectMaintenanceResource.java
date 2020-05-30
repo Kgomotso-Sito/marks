@@ -20,7 +20,7 @@ import java.util.List;
 public class SubjectMaintenanceResource {
 
     private String URL = "http://subject-maintenance/subjects";
-    private String userSubjectURL = "http://subject-maintenance/userSubject";
+    private String userSubjectURL = "http://subject-maintenance/usersubject";
 
 
     @Autowired
@@ -84,5 +84,11 @@ public class SubjectMaintenanceResource {
         ResponseEntity<String> result = restTemplate.postForEntity(userSubjectURL + "/deregister", entity, String.class);
 
         return (result.getStatusCodeValue() == 201 || result.getStatusCodeValue() == 200);
+    }
+
+    @RequestMapping(path = "/enrolled/{subjectId}", method = RequestMethod.GET)
+    public List<Integer> findAllUserIdBySubject(@PathVariable("subjectId") String subjectId) {
+        List<Integer> enrolledUserId = restTemplate.getForObject(userSubjectURL + "/enrolled/" + subjectId, List.class);
+        return enrolledUserId;
     }
 }

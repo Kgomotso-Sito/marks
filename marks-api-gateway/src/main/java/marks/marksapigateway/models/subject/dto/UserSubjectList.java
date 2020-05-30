@@ -1,5 +1,6 @@
 package marks.marksapigateway.models.subject.dto;
 
+import marks.marksapigateway.models.subject.entity.Subject;
 import marks.marksapigateway.models.subject.entity.UserSubject;
 
 import java.util.List;
