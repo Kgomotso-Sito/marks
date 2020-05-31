@@ -6,9 +6,11 @@ import marks.subjectmaintenance.subject.service.UserSubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
-@RequestMapping("/userSubject")
+@RequestMapping("/usersubject")
 public class UserSubjectResource {
 
     @Autowired
@@ -16,7 +18,7 @@ public class UserSubjectResource {
 
     @RequestMapping("")
     public String home() {
-        return "Enrollment management micro-service is running";
+        return "User subject management micro-service is running";
     }
 
     @RequestMapping(path = "/enroll", method = RequestMethod.POST)
@@ -37,5 +39,10 @@ public class UserSubjectResource {
     @RequestMapping(path = "/deregister", method = RequestMethod.POST)
     public boolean deregisterSubject(@RequestBody UserSubjectId userSubjectId){
         return userSubjectService.deactivateUserSubject(userSubjectId);
+    }
+
+    @RequestMapping(path = "/enrolled/{subjectId}", method = RequestMethod.GET)
+    public List<Integer> findAllUserIdBySubject(@PathVariable("subjectId") int subjectId){
+        return userSubjectService.findAllUserIdBySubject(subjectId);
     }
 }

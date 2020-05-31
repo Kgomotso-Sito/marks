@@ -9,4 +9,6 @@ import java.util.List;
 public interface UserSubjectRepository extends JpaRepository<UserSubject, Integer> {
     UserSubject findUserSubjectsByUserSubjectId(UserSubjectId userSubjectId);
     List<UserSubject> findUserSubjectsByUserSubjectId_UserId(Integer userId);
+    List<UserSubject> findUserSubjectsByUserSubjectId_SubjectId(Integer subjectId);
+
 }

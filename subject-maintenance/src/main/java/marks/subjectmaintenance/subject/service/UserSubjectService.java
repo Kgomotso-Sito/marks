@@ -7,6 +7,9 @@ import marks.subjectmaintenance.subject.entity.UserSubjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserSubjectService {
 
@@ -34,6 +37,10 @@ public class UserSubjectService {
         return new UserSubjectList(userSubjectRepository.findUserSubjectsByUserSubjectId_UserId(userId));
     }
 
+    public UserSubjectList findUserSubjectsByUserSubjectId(Integer subjectId) {
+        return new UserSubjectList(userSubjectRepository.findUserSubjectsByUserSubjectId_SubjectId(subjectId));
+    }
+
     public boolean deactivateUserSubject(UserSubjectId userSubjectId) {
         UserSubject userSubject = userSubjectRepository.findUserSubjectsByUserSubjectId(userSubjectId);
         if (userSubject == null) {
@@ -47,5 +54,17 @@ public class UserSubjectService {
 
     public UserSubjectList findAllUserSubjects() {
         return new UserSubjectList(userSubjectRepository.findAll());
+    }
+
+    public List<Integer> findAllUserIdBySubject(int subjectId){
+        UserSubjectList userSubjectsList = findUserSubjectsByUserSubjectId(subjectId);
+        List<Integer> enrolledUserIds = new ArrayList<>();
+
+        userSubjectsList.getUserSubjects().forEach(userSubject -> {
+            if(userSubject.getRegistered()) {
+                enrolledUserIds.add(userSubject.getUserSubjectId().getUserId());
+            }
+        });
+        return enrolledUserIds;
     }
 }

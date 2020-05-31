@@ -3,8 +3,8 @@ package marks.subjectmaintenance.subject.service;
 import marks.subjectmaintenance.subject.dao.SubjectRepository;
 import marks.subjectmaintenance.subject.dto.SubjectList;
 import marks.subjectmaintenance.subject.dto.UserSubjectList;
+import marks.subjectmaintenance.subject.entity.Assessment;
 import marks.subjectmaintenance.subject.entity.Subject;
-import marks.subjectmaintenance.subject.entity.UserSubject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +25,11 @@ public class SubjectService {
 
     public Subject findBySubjectById(int subjectId)  {
         Subject subject = subjectRepository.findSubjectById(subjectId);
+        return subject;
+    }
+
+    public Subject findBySubjectByAssessment(Assessment assessment)  {
+        Subject subject = subjectRepository.findSubjectByAssessmentListContains(assessment);
         return subject;
     }
 
@@ -68,4 +73,5 @@ public class SubjectService {
 
         return new SubjectList(userSubjects);
     }
+
 }

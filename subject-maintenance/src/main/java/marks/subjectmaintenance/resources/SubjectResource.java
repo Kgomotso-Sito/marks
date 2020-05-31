@@ -1,7 +1,9 @@
 package marks.subjectmaintenance.resources;
 
 import marks.subjectmaintenance.subject.dto.SubjectList;
+import marks.subjectmaintenance.subject.entity.Assessment;
 import marks.subjectmaintenance.subject.entity.Subject;
+import marks.subjectmaintenance.subject.service.AssessmentService;
 import marks.subjectmaintenance.subject.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,9 @@ public class SubjectResource {
 
     @Autowired
     SubjectService subjectService;
+
+    @Autowired
+    AssessmentService assessmentService;
 
     @RequestMapping("")
     public String home() {
@@ -26,6 +31,12 @@ public class SubjectResource {
     @RequestMapping("/{subjectId}")
     public Subject getSubjectById(@PathVariable("subjectId") int subjectId) {
         return subjectService.findBySubjectById(subjectId);
+    }
+
+    @RequestMapping("/assessment/{assessmentId}")
+    public Subject getSubjectByAssessment(@PathVariable("assessmentId") int assessmentId) {
+        Assessment assessment = assessmentService.findAssessmentById(assessmentId);
+        return subjectService.findBySubjectByAssessment(assessment);
     }
 
     @RequestMapping("/all")
