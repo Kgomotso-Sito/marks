@@ -31,7 +31,7 @@ public class AssessmentMaintenanceResource {
 
         HttpEntity<Assessment> entity = new HttpEntity<>(assessment, headers);
 
-        ResponseEntity<String> result = restTemplate.postForEntity(URL + "/create/" +assessment.getSubjectId(), entity, String.class);
+        ResponseEntity<String> result = restTemplate.postForEntity(URL + "/create/" + assessment.getSubjectId(), entity, String.class);
 
         return (result.getStatusCodeValue() == 201 || result.getStatusCodeValue() == 200);
     }

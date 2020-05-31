@@ -55,5 +55,4 @@ public class Subject {
     public void setActive(Boolean active) {
         this.active = active;
     }
-
 }
