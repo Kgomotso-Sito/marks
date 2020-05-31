@@ -109,4 +109,5 @@ class SubjectMaintenanceApplicationTests {
 
 		assertEquals(newUserSubject.getUserSubjectId(), userSubjectId);
 	}
+
 }

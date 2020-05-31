@@ -18,6 +18,9 @@ public class AssessmentService {
     private AssessmentRepository assessmentRepository;
 
     public Assessment createOrUpdate(Assessment assessment) {
+        if(assessment.getActive() == null) {
+            assessment.setActive(Boolean.TRUE);
+        }
         Assessment newAssessment = assessmentRepository.saveAndFlush(assessment);
         return newAssessment;
     }
