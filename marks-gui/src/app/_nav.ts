@@ -56,11 +56,11 @@ export const navItems: INavData[] = [
         url: '/marks/subjects',
         icon: 'icon-notebook'
       },
-      {
+      /*{
         name: 'Assessments',
         url: '/marks/assessments',
         icon: 'icon-note'
-      },
+      },*/
       {
         name: 'Graphs',
         url: '/marks/graphs',
