@@ -24,7 +24,6 @@ public class MarkResource {
 
     private String URL = "http://marks-management-service/marks";
     private String usersURL = "http://user-management-service/users";
-    private String assessmentURL= "http://subject-maintenance/assessment";
     private String userSubjectURL = "http://subject-maintenance/usersubject";
     private String subjectURL = "http://subject-maintenance/subjects";
 

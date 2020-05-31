@@ -3,27 +3,27 @@ package marks.marksapigateway.models.subject.entity;
 import java.util.List;
 
 public class Grade {
-    private String subject;
-    private List<Integer> grades;
+    private String label;
+    private List<Integer> data;
 
-    public Grade(String subject, List<Integer> grades) {
-        this.subject = subject;
-        this.grades = grades;
+    public Grade(String label, List<Integer> data) {
+        this.label = label;
+        this.data = data;
     }
 
-    public String getSubject() {
-        return subject;
+    public String getLabel() {
+        return label;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
-    public List<Integer> getGrades() {
-        return grades;
+    public List<Integer> getData() {
+        return data;
     }
 
-    public void setGrades(List<Integer> grades) {
-        this.grades = grades;
+    public void setData(List<Integer> grades) {
+        this.data = grades;
     }
 }

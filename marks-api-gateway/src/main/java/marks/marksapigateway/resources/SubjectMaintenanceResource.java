@@ -124,7 +124,7 @@ public class SubjectMaintenanceResource {
 
     public List<Assessment> getAssessmentForMonth(List<Assessment> assessments, Integer month){
         return assessments.stream().filter(
-                assessment -> assessment.getDate().getMonth() == month).collect(Collectors.toList());
+                assessment -> assessment.getDate().getMonth() < month).collect(Collectors.toList());
     }
 
 
