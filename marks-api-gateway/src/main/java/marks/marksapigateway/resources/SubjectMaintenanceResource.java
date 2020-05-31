@@ -1,8 +1,9 @@
 package marks.marksapigateway.resources;
 
+import marks.marksapigateway.models.subject.dto.AssessmentList;
+import marks.marksapigateway.models.subject.dto.MarkList;
 import marks.marksapigateway.models.subject.dto.SubjectList;
-import marks.marksapigateway.models.subject.entity.Subject;
-import marks.marksapigateway.models.subject.entity.UserSubjectId;
+import marks.marksapigateway.models.subject.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -10,8 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -21,6 +23,8 @@ public class SubjectMaintenanceResource {
 
     private String URL = "http://subject-maintenance/subjects";
     private String userSubjectURL = "http://subject-maintenance/usersubject";
+    private String assessmentURL= "http://subject-maintenance/assessment";
+    private String marksURL = "http://marks-management-service/marks";
 
 
     @Autowired
@@ -91,4 +95,62 @@ public class SubjectMaintenanceResource {
         List<Integer> enrolledUserId = restTemplate.getForObject(userSubjectURL + "/enrolled/" + subjectId, List.class);
         return enrolledUserId;
     }
+
+    @RequestMapping(path = "/marks", method = RequestMethod.GET)
+    public List<Grade> findAllUserIdBySubject() {
+        SubjectList subjectList = restTemplate.getForObject(URL + "/all", SubjectList.class);
+        List<Grade> grades = new ArrayList<>();
+
+
+        subjectList.getSubjects().forEach(subject -> {
+            grades.add(new Grade(subject.getDescription(), getMonthlyMarks(subject)));
+        });
+
+        return grades;
+    }
+
+
+    public List<Integer> getMonthlyMarks(Subject subject){
+        AssessmentList assessmentList = restTemplate.getForObject(assessmentURL + "/subject/" + subject.getId(), AssessmentList.class);
+        List<Integer> list = new ArrayList<>();
+
+        for (int i= 0; i< 12 ;i++) {
+            List<Assessment> monthlyAssessemnts = getAssessmentForMonth(assessmentList.getAssessments(),i);
+            Integer average = getAverageMark(monthlyAssessemnts);
+            list.add(average);
+        }
+        return list;
+    }
+
+    public List<Assessment> getAssessmentForMonth(List<Assessment> assessments, Integer month){
+        return assessments.stream().filter(
+                assessment -> assessment.getDate().getMonth() == month).collect(Collectors.toList());
+    }
+
+
+    public Integer getAverageMark(List<Assessment> assessments){
+        List<Mark> allMarks = new ArrayList<>();
+        List<Integer> grades = new ArrayList<>();
+
+        assessments.forEach(assessment -> {
+            List<Mark> marks = findAllMarksByAssessment(assessment.getId());
+                allMarks.addAll(marks != null? marks : new ArrayList<>());
+            }
+        );
+
+        allMarks.forEach(mark -> {
+                grades.add(mark.getGrade());
+            }
+        );
+
+        Integer sum = grades.stream().mapToInt(Integer::intValue).sum();
+
+        return grades.size() > 0? sum/grades.size(): 0;
+    }
+
+    public List<Mark> findAllMarksByAssessment(Integer assessmentId) {
+        MarkList marks = restTemplate.getForObject(marksURL + "/assessment/" + assessmentId, MarkList.class);
+        return marks.getMarks();
+    }
+
 }

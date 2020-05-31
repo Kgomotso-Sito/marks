@@ -47,6 +47,10 @@ public class MarkResource {
 
     @RequestMapping(path = "/assessment/{assessmentId}", method = RequestMethod.GET)
     public List<Mark> findAllMarks(@PathVariable("assessmentId") Integer assessmentId) {
+        return findAllMarksByAssessment(assessmentId);
+    }
+
+    public List<Mark> findAllMarksByAssessment(Integer assessmentId) {
         //Get assessment to get subject
         Subject subject = restTemplate.getForObject(subjectURL + "/assessment/" + assessmentId, Subject.class);
 
