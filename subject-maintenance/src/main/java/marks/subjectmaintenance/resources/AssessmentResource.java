@@ -27,6 +27,7 @@ public class AssessmentResource {
     @RequestMapping(path = "/create/{subjectId}", method = RequestMethod.POST)
     public boolean createAssessment(@PathVariable("subjectId")  int subjectId,@RequestBody Assessment assessment){
         assessment.setSubject(subjectService.findBySubjectById(subjectId));
+
         return assessmentService.createOrUpdate(assessment) != null;
     }
 

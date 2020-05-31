@@ -3,8 +3,11 @@ package marks.subjectmaintenance;
 import marks.subjectmaintenance.subject.dto.SubjectList;
 import marks.subjectmaintenance.subject.entity.Assessment;
 import marks.subjectmaintenance.subject.entity.Subject;
+import marks.subjectmaintenance.subject.entity.UserSubject;
+import marks.subjectmaintenance.subject.entity.UserSubjectId;
 import marks.subjectmaintenance.subject.service.AssessmentService;
 import marks.subjectmaintenance.subject.service.SubjectService;
+import marks.subjectmaintenance.subject.service.UserSubjectService;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -28,6 +31,8 @@ class SubjectMaintenanceApplicationTests {
 	@Autowired
 	private AssessmentService assessmentService;
 
+	@Autowired
+	private UserSubjectService userSubjectService;
 
 	@Test
 	void contextLoads() {
@@ -91,4 +96,18 @@ class SubjectMaintenanceApplicationTests {
 
 		assertEquals(newSubject.getAssessmentList().size(), 1);
 	}
+
+	@Test
+	public void createUserSubject() {
+		UserSubjectId userSubjectId = new UserSubjectId(1,1);
+		UserSubject newUserSubject = new UserSubject();
+		newUserSubject.setUserSubjectId(userSubjectId);
+
+		userSubjectService.createOrUpdate(newUserSubject);
+
+		UserSubject userSubject = userSubjectService.findUserSubjectById(userSubjectId);
+
+		assertEquals(newUserSubject.getUserSubjectId(), userSubjectId);
+	}
+
 }
