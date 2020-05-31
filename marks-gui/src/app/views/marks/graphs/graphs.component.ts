@@ -1,20 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import {FormBuilder} from "@angular/forms";
+import {GraphsService} from "./graphs.service";
 
 @Component({
   selector: 'app-graphs',
   templateUrl: './graphs.component.html'
 })
-export class GraphsComponent {
+export class GraphsComponent implements OnInit{
+
   // lineChart
   //Projected line of over other
-  public lineChartData: Array<any> = [
-    {data: [65, 59, 80, 81, 56, 55, 40, 87, 43, 65, 69, 78, 87, 87], label: 'Maths'},
-    {data: [28, 48, 19, 86, 27, 90, 67, 65, 76, 98, 87, 98, 43], label: 'Physics'},
-    {data: [28, 48, 40, 19, 86, 27, 90, 45, 87, 45, 49, 89, 27, 54], label: 'Life Sc'},
-    {data: [80, 48, 77, 96, 100, 76, 40, 77, 89, 90, 80, 90, 90, 57], label: 'CAT'},
-    {data: [77, 89, 90, 80, 90, 90, 57, 19, 86, 27, 90, 67, 65, 76], label: 'LO'},
-    {data: [45, 87, 45, 49, 89, 27, 54, 90, 80, 90, 90, 57, 19, 86], label: 'FAL'},
-  ];
+  public lineChartData : Array<any>;
+  private isDataAvailable:boolean=false;
+
   public lineChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   public lineChartOptions: any = {
     animation: false,
@@ -23,6 +21,25 @@ export class GraphsComponent {
 
   public lineChartLegend = true;
   public lineChartType = 'line';
+
+
+  constructor(private graphsService: GraphsService) { }
+
+  ngOnInit(): void {
+    this.getSubjects();
+  }
+
+  getSubjects() {
+    this.graphsService.getMarks().subscribe(
+        data => {
+          this.lineChartData = data;
+          this.isDataAvailable=true;
+
+        },
+        err => console.error(err),
+        () => console.log('Done getting marks')
+    );
+  }
 
   // barChart
   public barChartOptions: any = {

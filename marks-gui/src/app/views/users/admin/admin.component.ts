@@ -51,7 +51,7 @@ export class AdminComponent implements OnInit {
         birthDate : this.formBuilder.control("", Validators.required),
         nationality : this.formBuilder.control("", Validators.required),
         idNumber :  this.formBuilder.control("", [Validators.required, Validators.pattern("^[0-9]*$"),
-            Validators.minLength(12), Validators.maxLength(12)]),
+            Validators.minLength(12), Validators.maxLength(13)]),
         passportNumber : "",
         emailAddress : this.formBuilder.control("", [Validators.required, Validators.email]),
         phoneNumber : this.formBuilder.control("", [Validators.required, Validators.pattern("^[0-9]*$"),

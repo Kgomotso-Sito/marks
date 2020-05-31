@@ -116,7 +116,7 @@ export class SubjectsComponent implements OnInit {
   get f() { return this.form.controls; }
   get g() { return this.assessmentForm.controls; }
 
-    collapsed(event: any): void {
+  collapsed(event: any): void {
     // console.log(event);
   }
 

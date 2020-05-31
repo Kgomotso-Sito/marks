@@ -23,6 +23,11 @@ export class SubjectService {
             .get<Subject []>(this.url + "/all");
     }
 
+    public getUserSubjects(userId: string) {
+        return this.http
+            .get<Subject []>(this.url + "/user/" + userId);
+    }
+
     public getSubject(subjectId: string) {
         console.log("Sending ..." + JSON.stringify(subjectId));
         return this.http
@@ -39,5 +44,17 @@ export class SubjectService {
         console.log("Sending..." + JSON.stringify(subjectId));
         return this.http
             .get<Assessment []>(this.assessmentURL + "/subject/" + subjectId);
+    }
+
+    public enrollForSubject(userSubject: any) {
+        console.log("Sending subject..." + JSON.stringify(userSubject));
+        return this.http
+            .post<boolean>(this.url + "/enroll", userSubject);
+    }
+
+    public deregisterSubject(userSubject: any) {
+        console.log("Sending subject..." + JSON.stringify(userSubject));
+        return this.http
+            .post<boolean>(this.url + "/deregister", userSubject);
     }
 }

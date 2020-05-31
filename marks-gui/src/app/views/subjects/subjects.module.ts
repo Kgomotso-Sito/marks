@@ -7,6 +7,7 @@ import { SubjectsComponent } from './subjects.component';
 import { SubjectsRoutingModule } from './subjects-routing.module';
 import {CommonModule} from "@angular/common";
 import {CollapseModule} from "ngx-bootstrap/collapse";
+import { EnrollmentComponent } from './enrollment/enrollment.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import {CollapseModule} from "ngx-bootstrap/collapse";
     CommonModule,
     ReactiveFormsModule
   ],
-  declarations: [ SubjectsComponent ]
+  declarations: [ SubjectsComponent, EnrollmentComponent ]
 })
 export class SubjectsModule { }

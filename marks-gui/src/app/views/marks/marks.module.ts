@@ -9,6 +9,7 @@ import { SubjectMarksComponent } from './subject-marks/subject-marks.component';
 import { SubjectAssessmentMarksComponent } from './subject-assessment-marks/subject-assessment-marks.component';
 import { GraphsComponent } from './graphs/graphs.component';
 import { ChartsModule } from "ng2-charts";
+import {CollapseModule} from "ngx-bootstrap/collapse";
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { ChartsModule } from "ng2-charts";
     MarksRoutingModule,
     BsDropdownModule,
     ButtonsModule.forRoot(),
+    CollapseModule.forRoot(),
     CommonModule,
     ChartsModule
   ],
