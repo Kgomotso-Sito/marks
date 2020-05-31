@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -19,6 +20,11 @@ public class UserService {
     public User findByUserNumber(String userNumber)  {
         User user = userRepository.findByUserNumber(userNumber);
         return user;
+    }
+
+    public User findByUserId(Integer userId)  {
+        Optional<User> user = userRepository.findById(userId);
+        return user.get();
     }
 
     public Integer getNumberOfUsers(User.Role user) {
@@ -53,4 +59,9 @@ public class UserService {
 
     public UserList findAllLearners(){ return new UserList(userRepository.findUsersByRole(User.Role.Learner));
     }
+
+    public UserList findByUserNumber(List<String> userNumbers)  {
+        return new UserList(userRepository.findUsersByUserNumberIn(userNumbers));
+    }
+
 }
