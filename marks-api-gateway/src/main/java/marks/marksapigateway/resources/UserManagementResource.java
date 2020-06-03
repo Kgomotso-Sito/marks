@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.ResponseEntity;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,6 +20,8 @@ import java.util.List;
 public class UserManagementResource {
 
     private String URL = "http://user-management-service/users";
+    private String userSubjectURL = "http://subject-maintenance/usersubject";
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -47,7 +51,17 @@ public class UserManagementResource {
     }
 
     @RequestMapping(path = "/deactivate/{userNumber}")
-    public String deactivateUser(@PathVariable("userNumber") String userNumber) {
-        return restTemplate.postForObject(URL + "/deactivate/" + userNumber, null ,String.class);
+    public boolean deactivateUser(@PathVariable("userNumber") String userNumber) {
+        return restTemplate.postForObject(URL + "/deactivate/" + userNumber, null , Boolean.class);
+    }
+
+    @RequestMapping(path = "/enrolled/{subjectId}", method = RequestMethod.GET)
+    public List<User> findAllUserIdBySubject(@PathVariable("subjectId") String subjectId) {
+        List<Integer> enrolledUserId = restTemplate.getForObject(userSubjectURL + "/enrolled/" + subjectId, List.class);
+        List<User> users = new ArrayList<>();
+        enrolledUserId.forEach(id -> {
+            users.add(restTemplate.getForObject(URL + "/userId/" + id, User.class));
+        });
+        return users;
     }
 }

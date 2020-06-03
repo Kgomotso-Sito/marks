@@ -3,29 +3,42 @@
     <div class="col-md-12">
       <div class="row">
         <div class="col-lg-12">
-          <div class="card">
+          <div class="card" (collapsed)="collapsed($event)"
+               (expanded)="expanded($event)"
+               [collapse]="isCollapsed">
             <div class="card-header">
               <strong>Subjects:</strong>
             </div>
             <div class="card-body">
+              <div class="row ">
+                <div class="col-lg-8">
+                  <button type="button" class="btn btn-primary"
+                          (click)="createNewSubject()">Add subject
+                  </button>
+                </div>
+              </div>
+              <div class="row">&nbsp;</div>
               <table class="table table-bordered table-striped ">
                 <thead>
                 <tr>
                   <th>Code</th>
-                  <th>Name</th>
-                  <th>Average</th>
+                  <th>Description</th>
+                  <th>Action</th>
                   <th>Status</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>Math</td>
-                  <td>Mathematics</td>
+                <tr *ngFor="let subject of subjects">
+                  <td>{{subject.code}}</td>
+                  <td>{{subject.description}}</td>
                   <td>
-                    <span class="badge badge-success">Good</span>
+                    <button (click)="viewSubject(subject.id)" class="btn btn-link">Edit</button>
                   </td>
                   <td>
-                    <span class="badge badge-danger">Inactive</span>
+                    <button  data-toggle="modal"
+                             class="btn btn-link" [disabled]="!subject.active">
+                      <span class="badge {{subject.active ? 'badge-success': 'badge-danger'}}"> {{subject.active ? 'Active': 'Deactivated'}}</span>
+                    </button>
                   </td>
                 </tr>
                 </tbody>
@@ -37,41 +50,61 @@
       </div>
 
       <!--View update admin details-->
-      <div class="card">
-        <div class="card-header">
-          <strong>Add Subject:</strong>
-        </div>
-        <div class="card-body">
-          <form #form='ngForm' (ngSubmit)='submitForm(form.value)' enctype="multipart/form-data" class="form-horizontal">
-
-            <div class="form-group row">
-              <label class="col-md-2 col-form-label" for="subject-code-txt">Code</label>
-              <div class="col-md-6">
-                <input type="text" id="subject-code-txt" name="subject-code" class="form-control" placeholder="Code" ngModel required>
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label class="col-md-2 col-form-label" for="subject-name-txt">Name</label>
-              <div class="col-md-6">
-                <input type="text" id="subject-name-txt" name="subject-name" class="form-control" placeholder="Subject name" ngModel required>
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label class="col-md-2 col-form-label" for="description-input">Textarea</label>
-              <div class="col-md-6">
-                <textarea id="description-input" name="description" rows="5" class="form-control" placeholder="Subject description.."></textarea>
-              </div>
-            </div>
-
+      <div (collapsed)="collapsed($event)"
+           (expanded)="expanded($event)"
+           [collapse]="!isCollapsed">
+        <div class="card">
+          <div class="card-header">
             <div class="row">
-              <div class="col-lg-12">
-                <div class="card">
-                  <div class="card-header">
-                    <strong>Assessment:</strong>
-                  </div>
-                  <div class="card-body">
+              <strong class="col-md-9">Subject</strong>
+              <div class="col-md-3">
+                <button type="button" class="btn btn-link"
+                        (click)="viewSubjects()"><strong>View all subjects</strong>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="form" (ngSubmit)='submitForm(form.value)' enctype="multipart/form-data" class="form-horizontal">
+              <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="subject-code-txt">Code</label>
+                <div class="col-md-6">
+                  <input type="text" id="subject-code-txt" formControlName="code" class="form-control"
+                         [ngClass]="{ 'is-invalid': submitted && f.code.errors }" placeholder="Code">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="subject-description-txt">Description</label>
+                <div class="col-md-6">
+                  <input type="text" id="subject-description-txt" formControlName="description" class="form-control"
+                         [ngClass]="{ 'is-invalid': submitted && f.description.errors }" placeholder="Subject description">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="information-input">Additional information...</label>
+                <div class="col-md-6">
+                  <textarea id="information-input" formControlName="information" rows="5" class="form-control" placeholder="Subject additional information.."></textarea>
+                </div>
+              </div>
+
+              <div class="">
+                <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div *ngIf="subject != null">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header">
+                <strong>Assessment:</strong>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
                     <table class="table table-bordered table-striped ">
                       <thead>
                       <tr>
@@ -79,39 +112,83 @@
                         <th>Date</th>
                         <th>CAS Weigh %</th>
                         <th>Actions</th>
+                        <th>Status</th>
                       </tr>
                       </thead>
                       <tbody>
-                      <tr *ngFor="let assessment of assessments; let i = index;">
+                      <tr *ngFor="let assessment of assessments; index as i">
+                        <td>{{assessment.name}}</td>
+                        <td>{{assessment.date |  date: 'dd/MM/yyyy'}}</td>
+                        <td>{{assessment.total}}</td>
                         <td>
-                          <input [(ngModel)]="assessments[i].name"  type="text" id="assessment-name-txt" name="assessment-name" class="form-control" placeholder="Assessment name e.g Class Test 1" ngModel required>
+                          <button (click)="viewSubjectAssessment(i)" class="btn btn-link">Edit</button>
                         </td>
                         <td>
-                          <input [(ngModel)]="assessments[i].date" class="form-control" id="birth-date-input" type="date" name="birth-date" placeholder="Date of assessment">
-                        </td>
-                        <td>
-                          <input [(ngModel)]="assessments[i].name" type="text" id="cas-weigh-txt" name="cas-weigh" class="form-control" placeholder="CAS Weigh in %" ngModel required>
-                        </td>
-                        <td>
-                            <i (click)="addAssessment(i)" class="icon-plus icons font-3xl"></i>
-                            <i>&nbsp;&nbsp;</i>
-                            <i (click)="deleteAssessment(i)" class="icon-close icons font-3xl"></i>
+                          <button  data-toggle="modal"
+                                   class="btn btn-link" [disabled]="!assessment.active">
+                            <span class="badge {{assessment.active ? 'badge-success': 'badge-danger'}}"> {{assessment.active ? 'Active': 'Deactivated'}}</span>
+                          </button>
                         </td>
                       </tr>
                       </tbody>
                     </table>
                   </div>
+                  <div class="col-md-5">
+                    <div class="card">
+                      <div class="card-header">
+                        <strong>{{assessment == null? 'Create new subject': 'Edit Subject'}}</strong>
+                      </div>
+                      <div class="card-body">
+                        <form [formGroup]="assessmentForm" (ngSubmit)='submitAssessmentForm(assessmentForm.value)'>
+                          <div class="form-group row">
+                            <label class="col-md-5 col-form-label" for="assessment-name-txt">Assessment name</label>
+                            <div class="col-md-6">
+                              <input type="text" id="assessment-name-txt" formControlName="name" class="form-control"
+                                     [ngClass]="{ 'is-invalid': assessmentSubmitted && g.name.errors }" placeholder="Name">
+                              <div *ngIf="assessmentSubmitted && g.name.errors" class="invalid-feedback">
+                                <div *ngIf="g.name.errors.required">Assessment name is required</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-md-5 col-form-label" for="assessment-date-txt">Date of assessment</label>
+                            <div class="col-md-6">
+                              <input type="date" id="assessment-date-txt" formControlName="date" class="form-control"
+                                     [ngClass]="{ 'is-invalid': assessmentSubmitted && g.date.errors }" placeholder="Date">
+                              <div *ngIf="assessmentSubmitted && g.date.errors" class="invalid-feedback">
+                                <div *ngIf="g.date.errors.required">Date is required</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-md-5 col-form-label" for="assessment-total-txt">CAS Weigh %</label>
+                            <div class="col-md-6">
+                              <input type="text" id="assessment-total-txt" formControlName="total" class="form-control"
+                                     [ngClass]="{ 'is-invalid': assessmentSubmitted && g.total.errors }" placeholder="Weight total">
+                              <div *ngIf="assessmentSubmitted && g.total.errors" class="invalid-feedback">
+                                <div *ngIf="g.total.errors.required">Weight total is required</div>
+                                <div *ngIf="g.total.errors.pattern">Weight total code must be a number</div>
+                                <div *ngIf="g.total.errors.max || g.total.errors.min">Weight total must between 0 and 100 </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="">
+                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i>
+                              <strong>{{assessment == null? 'Save': 'Update'}}</strong>
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <!--/.col-->
             </div>
-            <div class="">
-              <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
-              <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
-            </div>
-          </form>
+          </div>
+          <!--/.col-->
         </div>
       </div>
+
     </div> <!--/.col-->
   </div><!--/.row-->
 </div>

@@ -29,12 +29,23 @@ export const navItems: INavData[] = [
     ]
   },
 
-  /*{
+  {
     name: 'Subjects',
     url: '/subjects',
     icon: 'icon-notebook',
+    children: [
+      {
+        name: 'View Subjects',
+        url: '/subjects/subjects',
+        icon: 'icon-notebook'
+      },
+      {
+        name: 'Student Enrollment',
+        url: '/subjects/enrollment',
+        icon: 'icon-user-follow'
+      }
+    ]
   },
-
   {
     name: 'Marks',
     url: '/marks',
@@ -45,11 +56,11 @@ export const navItems: INavData[] = [
         url: '/marks/subjects',
         icon: 'icon-notebook'
       },
-      {
+      /*{
         name: 'Assessments',
         url: '/marks/assessments',
         icon: 'icon-note'
-      },
+      },*/
       {
         name: 'Graphs',
         url: '/marks/graphs',
@@ -61,5 +72,5 @@ export const navItems: INavData[] = [
         icon: 'icon-note'
       }
     ]
-  }*/
+  }
 ];

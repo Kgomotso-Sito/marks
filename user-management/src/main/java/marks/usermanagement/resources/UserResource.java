@@ -51,4 +51,8 @@ public class UserResource {
         return userService.deactivateUser(userNumber);
     }
 
+    @RequestMapping("/userId/{userId}")
+    public User getUserById(@PathVariable("userId") Integer userId) {
+        return userService.findByUserId(userId);
+    }
 }

@@ -36,7 +36,7 @@ export class LearnersComponent implements OnInit{
   ngOnInit() {
     this.titles = this.userService.getTitles();
     this.schoolClasses = this.userService.getClasses();
-    this.schoolGrades = this.userService.getSchoolGrades()
+    this.schoolGrades = this.userService.getSchoolGrades();
     this.genders = this.userService.getGenders();
     this.races = this.userService.getRaces();
     this.provinces = this.userService.getProvinces();
@@ -60,7 +60,7 @@ export class LearnersComponent implements OnInit{
         birthDate : this.formBuilder.control("", Validators.required),
         nationality : this.formBuilder.control("", Validators.required),
         idNumber :  this.formBuilder.control("", [Validators.required, Validators.pattern("^[0-9]*$"),
-            Validators.minLength(12), Validators.maxLength(12)]),
+            Validators.minLength(12), Validators.maxLength(13)]),
         passportNumber : "",
         emailAddress : this.formBuilder.control("", [Validators.required, Validators.email]),
         phoneNumber : this.formBuilder.control("", [Validators.required, Validators.pattern("^[0-9]*$"),
@@ -137,7 +137,7 @@ export class LearnersComponent implements OnInit{
   deactivateLearnerUser() {
       this.userService.deactivateUser(this.userNumber).subscribe(
           data => {
-              console.log('Response: ' + data)
+              console.log('Response: ' + data);
               this.getLearners();
               this.warningModal.hide();
           },

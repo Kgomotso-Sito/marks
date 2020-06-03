@@ -28,6 +28,12 @@ export class UserService {
             .get<User>(this.url + "/" + userId);
     }
 
+    public getEnrolledByAssessment(assessmentId: string) {
+        console.log("Sending ..." + JSON.stringify(assessmentId));
+        return this.http
+            .get<User[]>(this.url + "/enrolled/" + assessmentId);
+    }
+
     public deactivateUser(userId: string) {
         console.log("Sending ..." + JSON.stringify(userId));
         return this.http

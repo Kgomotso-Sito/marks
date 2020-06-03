@@ -1,5 +1,8 @@
 export class Assessment {
+  id:number;
   name:string;
-  date:string;
-  casWeigh:number;
+  date:Date;
+  total:number;
+  subjectId:string;
+  active:boolean;
 }

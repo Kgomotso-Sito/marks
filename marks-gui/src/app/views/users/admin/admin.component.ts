@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {User} from "../user.model";
 import {UserService} from "../user.service";
 import {Observable} from "rxjs";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ModalDirective} from "ngx-bootstrap";
 
 @Component({
@@ -51,7 +51,7 @@ export class AdminComponent implements OnInit {
         birthDate : this.formBuilder.control("", Validators.required),
         nationality : this.formBuilder.control("", Validators.required),
         idNumber :  this.formBuilder.control("", [Validators.required, Validators.pattern("^[0-9]*$"),
-            Validators.minLength(12), Validators.maxLength(12)]),
+            Validators.minLength(12), Validators.maxLength(13)]),
         passportNumber : "",
         emailAddress : this.formBuilder.control("", [Validators.required, Validators.email]),
         phoneNumber : this.formBuilder.control("", [Validators.required, Validators.pattern("^[0-9]*$"),
@@ -74,8 +74,8 @@ export class AdminComponent implements OnInit {
       data => { this.users = data},
       err => console.error(err),
       () => console.log('Done loading admin users')
- );
-}
+     );
+  }
 
   isCollapsed: boolean = false;
   iconCollapse: string = 'icon-arrow-up';
@@ -95,7 +95,7 @@ export class AdminComponent implements OnInit {
   submitForm(data){
     this.submitted = true;
     if (this.form.invalid) {
-        console.log("This field " + this.findInvalidControls() + " is invalid")
+        console.log("This field " + this.findInvalidControls() + " is invalid");
       return;
     }
 
@@ -105,7 +105,7 @@ export class AdminComponent implements OnInit {
 
     authObs.subscribe(
         resData => {
-          console.log("User has been created" + data);
+          console.log("User has been created" + resData);
           this.getAdminUsers();
           this.toggleCollapse();
         },
@@ -145,7 +145,7 @@ export class AdminComponent implements OnInit {
   deactivateAdminUser() {
     this.userService.deactivateUser(this.userNumber).subscribe(
         data => {
-            console.log('Response: ' + data)
+            console.log('Response: ' + data);
             this.getAdminUsers();
             this.warningModal.hide();
         },
