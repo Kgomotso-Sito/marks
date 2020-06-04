@@ -16,8 +16,11 @@ public class Subject {
     @Column(nullable = false, columnDefinition = "boolean default true")
     private Boolean active = Boolean.TRUE;
 
-    @OneToMany(mappedBy = "subject", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Assessment> assessmentList;
+
+    @OneToMany(mappedBy = "averageSubject", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    private List<Average> averages;
 
     public Subject() {
     }
@@ -53,6 +56,15 @@ public class Subject {
     public void setAssessmentList(List<Assessment> assessmentList) {
         this.assessmentList = assessmentList;
     }
+
+    public List<Average> getAverages() {
+        return averages;
+    }
+
+    public void setAverages(List<Average> averages) {
+        this.averages = averages;
+    }
+
 
     public Boolean getActive() {
         return active;

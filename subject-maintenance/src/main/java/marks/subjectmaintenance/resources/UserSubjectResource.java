@@ -36,6 +36,11 @@ public class UserSubjectResource {
         return userSubjectService.findAllUserSubjectsByUserId(userId);
     }
 
+    @RequestMapping("/subject/{subjectId}")
+    public UserSubjectList getAllUserSubjectsBySubjectId(@PathVariable("subjecId") Integer subjectId){
+        return userSubjectService.findUserSubjectsByUserSubjectId(subjectId);
+    }
+
     @RequestMapping(path = "/deregister", method = RequestMethod.POST)
     public boolean deregisterSubject(@RequestBody UserSubjectId userSubjectId){
         return userSubjectService.deactivateUserSubject(userSubjectId);
