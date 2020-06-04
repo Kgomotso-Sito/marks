@@ -1,0 +1,136 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card" (collapsed)="collapsed($event)"
+               (expanded)="expanded($event)"
+               [collapse]="hideSubjects">
+            <div class="card-header">
+              <strong>Subjects:</strong>
+            </div>
+            <div class="card-body">
+              <table class="table table-bordered table-striped ">
+                <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Name</th>
+                  <th>Average</th>
+                  <th>Action</th>
+                  <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let subject of subjects">
+                    <td>{{subject.code}}</td>
+                    <td>{{subject.description}}</td>
+                    <td>View marks</td>
+                    <td>
+                      <button (click)="viewSubject(subject.id)" class="btn btn-link">View assessment marks</button>
+                    </td>
+                    <td>
+                        <span class="badge {{subject.active ? 'badge-success': 'badge-danger'}}"> {{subject.active ? 'Active': 'Deactivated'}}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!--/.col-->
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card"(collapsed)="collapsed($event)"
+             (expanded)="expanded($event)"
+             [collapse]="hideAssessments">
+             <div class="card-header" *ngIf="subject != null">
+               <div class="row">
+                 <strong class="col-md-9">{{subject.description+" assessments"}}</strong>
+                 <div class="col-md-3">
+                   <button type="button" class="btn btn-link"
+                           (click)="showSubjects()"><strong>Back to subjects</strong>
+                   </button>
+                 </div>
+               </div>
+             </div>
+          <div class="card-body">
+            <table class="table table-bordered table-striped ">
+                <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Date</th>
+                  <th>CAS Weigh %</th>
+                  <th>Actions</th>
+                  <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let assessment of assessments; index as i">
+                  <td>{{assessment.name}}</td>
+                  <td>{{assessment.date |  date: 'dd/MM/yyyy'}}</td>
+                  <td>{{assessment.total}}</td>
+                  <td>
+                    <button (click)="addMarks(i)" class="btn btn-link">Add learner marks</button>
+                  </td>
+                  <td>
+                    <button  data-toggle="modal"
+                             class="btn btn-link" [disabled]="!assessment.active">
+                      <span class="badge {{assessment.active ? 'badge-success': 'badge-danger'}}"> {{assessment.active ? 'Active': 'Deactivated'}}</span>
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+        <!--/.col-->
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card"(collapsed)="collapsed($event)"
+               (expanded)="expanded($event)"
+               [collapse]="hideUsers">
+            <div class="card-header" *ngIf="subject != null && assessment != null">
+              <div class="row">
+                <strong class="col-md-9">{{subject.description+"; " + assessment.name }}</strong>
+                <div class="col-md-3">
+                  <button type="button" class="btn btn-link"
+                          (click)="showAssessments()"><strong>Back to assessments</strong>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <table class="table table-bordered table-striped ">
+                <thead>
+                <tr>
+                  <th>Learner ID</th>
+                  <th>Mark in %</th>
+                  <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let mark of marks; index as i">
+                  <td>{{mark.markId.userNumber}}</td>
+                  <td>
+                    <input type="text" (keyup)="onKey($event, i)" id="cas-weigh-txt" class="form-control" placeholder="Enter grade in %" value="{{mark.grade}}">
+                  </td>
+                  <td>
+                      <span *ngIf="mark.grade != null" class="badge badge-success"  (click)="saveMarks(i)">Save mark</span>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+              <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Save</button>
+            </div>
+          </div>
+        </div>
+        <!--/.col-->
+      </div>
+    </div>
+  </div>
+</div>

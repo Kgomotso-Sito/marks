@@ -1,0 +1,71 @@
+<div class="animated fadeIn">
+  <div class="card">
+    <div class="card-header">
+      Line Chart
+      <div class="card-header-actions">
+        <a href="http://www.chartjs.org">
+          <small class="text-muted">docs</small>
+        </a>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="chart-wrapper" *ngIf="isDataAvailable">
+        <canvas baseChart class="chart"
+                height="70"
+                [datasets]="lineChartData"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-columns cols-2">
+    <div class="card">
+      <div class="card-header">
+        Bar Chart
+        <div class="card-header-actions">
+          <a href="http://www.chartjs.org">
+            <small class="text-muted">docs</small>
+          </a>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="chart-wrapper">
+          <canvas baseChart class="chart"
+                  [datasets]="barChartData"
+                  [labels]="barChartLabels"
+                  [options]="barChartOptions"
+                  [legend]="barChartLegend"
+                  [chartType]="barChartType"
+                  (chartHover)="chartHovered($event)"
+                  (chartClick)="chartClicked($event)"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        Radar Chart
+        <div class="card-header-actions">
+          <a href="http://www.chartjs.org">
+            <small class="text-muted">docs</small>
+          </a>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="chart-wrapper">
+          <canvas baseChart class="chart"
+                  [datasets]="radarChartData"
+                  [labels]="radarChartLabels"
+                  [chartType]="radarChartType"
+                  (chartHover)="chartHovered($event)"
+                  (chartClick)="chartClicked($event)"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
