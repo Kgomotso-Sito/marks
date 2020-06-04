@@ -18,9 +18,9 @@ export class EnrollmentComponent implements OnInit {
   allSubjects: Subject [];
 
   isCollapsed: boolean = false;
-  private submitted: boolean = false;
-  private submittedSubject: boolean = false;
-  private index: number;
+  submitted: boolean = false;
+  submittedSubject: boolean = false;
+  index: number;
 
   form: FormGroup;
   enrollment: FormGroup;

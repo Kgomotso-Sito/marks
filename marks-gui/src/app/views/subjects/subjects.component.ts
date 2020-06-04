@@ -19,9 +19,9 @@ export class SubjectsComponent implements OnInit {
   assessmentForm: FormGroup;
 
   isCollapsed: boolean = false;
-  private submitted: boolean = false;
-  private assessmentSubmitted: boolean = false;
-  private index: number;
+   submitted: boolean = false;
+   assessmentSubmitted: boolean = false;
+   index: number;
 
   constructor(private subjectService: SubjectService, private formBuilder: FormBuilder) { }
 

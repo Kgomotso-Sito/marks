@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder} from "@angular/forms";
 import {GraphsService} from "./graphs.service";
 
 @Component({
@@ -11,7 +10,7 @@ export class GraphsComponent implements OnInit{
   // lineChart
   //Projected line of over other
   public lineChartData : Array<any>;
-  private isDataAvailable:boolean=false;
+   isDataAvailable:boolean=false;
 
   public lineChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   public lineChartOptions: any = {
