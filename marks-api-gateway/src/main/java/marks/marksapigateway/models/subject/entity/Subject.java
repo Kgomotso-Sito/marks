@@ -13,6 +13,8 @@ public class Subject {
 
     private List<Assessment> assessments;
 
+    private List<Average> averages;
+
     public Subject() {
     }
 
@@ -46,6 +48,14 @@ public class Subject {
 
     public void setAssessmentList(List<Assessment> assessments) {
         this.assessments = assessments;
+    }
+
+    public List<Average> getAverages() {
+        return averages;
+    }
+
+    public void setAverages(List<Average> averages) {
+        this.averages = averages;
     }
 
     public Boolean getActive() {

@@ -21,11 +21,13 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins="*", maxAge=3600)
 public class SubjectMaintenanceResource {
 
-    private String URL = "http://subject-maintenance/subjects";
-    private String userSubjectURL = "http://subject-maintenance/usersubject";
-    private String assessmentURL= "http://subject-maintenance/assessment";
-    private String marksURL = "http://marks-management-service/marks";
+    private String URL = "http://subject-1591161650651";
 
+
+    private String subjectURL = URL + "/subjects";
+    private String userSubjectURL = URL + "/usersubject";
+    private String assessmentURL= URL + "/assessment";
+    private String marksURL = "http://marks-1591161650651/marks";
 
     @Autowired
     private RestTemplate restTemplate;
@@ -38,31 +40,31 @@ public class SubjectMaintenanceResource {
 
         HttpEntity<Subject> entity = new HttpEntity<>(subject, headers);
 
-        ResponseEntity<String> result = restTemplate.postForEntity(URL + "/create", entity, String.class);
+        ResponseEntity<String> result = restTemplate.postForEntity(subjectURL + "/create", entity, String.class);
 
         return (result.getStatusCodeValue() == 201 || result.getStatusCodeValue() == 200);
     }
 
     @RequestMapping(path = "/all", produces = "application/json")
     public List<Subject> findAll() {
-        SubjectList subjectList = restTemplate.getForObject(URL + "/all", SubjectList.class);
+        SubjectList subjectList = restTemplate.getForObject(subjectURL + "/all", SubjectList.class);
         return subjectList.getSubjects();
     }
 
     @RequestMapping(path = "/{subjectId}", method = RequestMethod.GET)
     public Subject findSubjectById(@PathVariable("subjectId") String subjectId) {
-        Subject subject = restTemplate.getForObject(URL + "/" + subjectId, Subject.class);
+        Subject subject = restTemplate.getForObject(subjectURL + "/" + subjectId, Subject.class);
         return subject;
     }
 
     @RequestMapping(path = "/deactivate/{subjectId}")
     public boolean deactivateSubject(@PathVariable("subjectId") String subjectId) {
-        return restTemplate.postForObject(URL + "/deactivate/" + subjectId, null, Boolean.class);
+        return restTemplate.postForObject(subjectURL + "/deactivate/" + subjectId, null, Boolean.class);
     }
 
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
     public List<Subject> findSubjectsByUserId(@PathVariable("userId") String userId) {
-        SubjectList subjectList = restTemplate.getForObject(URL + "/user/" + userId, SubjectList.class);
+        SubjectList subjectList = restTemplate.getForObject(subjectURL + "/user/" + userId, SubjectList.class);
         return subjectList.getSubjects();
     }
 
@@ -97,26 +99,43 @@ public class SubjectMaintenanceResource {
     }
 
     @RequestMapping(path = "/marks", method = RequestMethod.GET)
-    public List<Grade> findAllUserIdBySubject() {
-        SubjectList subjectList = restTemplate.getForObject(URL + "/all", SubjectList.class);
-        List<Grade> grades = new ArrayList<>();
+    public List<Grade> getAllAverageMarks() {
 
+        SubjectList subjectList = restTemplate.getForObject(subjectURL + "/all", SubjectList.class);
+        List<Grade> grades = new ArrayList<>();
+        List<Integer> average = new ArrayList<>();
 
         subjectList.getSubjects().forEach(subject -> {
-            grades.add(new Grade(subject.getDescription(), getMonthlyMarks(subject)));
+            subject.getAverages().forEach(average1 -> {
+                average.add(average1.getAverageId().getMonth(),average1.getValue());
+            });
+            Grade grade = new Grade(subject.getDescription(),average);
+            grades.add(grade);
         });
 
         return grades;
     }
 
+    @RequestMapping(path = "/average/{subjectId}", method = RequestMethod.GET)
+    public List<Average> updateAverage(@PathVariable("subjectId") String subjectId) {
+        Subject subject = restTemplate.getForObject(subjectURL + "/" + subjectId, Subject.class);
+        subject.setAverages(getMonthlyMarks(subject));
+        createSubject(subject);
+        return subject.getAverages();
+    }
 
-    public List<Integer> getMonthlyMarks(Subject subject){
+
+    public List<Average> getMonthlyMarks(Subject subject){
         AssessmentList assessmentList = restTemplate.getForObject(assessmentURL + "/subject/" + subject.getId(), AssessmentList.class);
-        List<Integer> list = new ArrayList<>();
+        List<Average> list = new ArrayList<>();
 
-        for (int i= 0; i< 12 ;i++) {
+        for (int i= 0; i < 12 ;i++) {
             List<Assessment> monthlyAssessemnts = getAssessmentForMonth(assessmentList.getAssessments(),i);
-            Integer average = getAverageMark(monthlyAssessemnts);
+            Average average = new Average();
+            AverageId averageId = new AverageId(i, subject.getId());
+            average.setAverageId(averageId);
+            average.setValue(getAverageMark(monthlyAssessemnts));
+
             list.add(average);
         }
         return list;
