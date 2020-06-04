@@ -58,4 +58,5 @@ public class SubjectResource {
     public SubjectList getAllSubjectsByUser(@PathVariable("userId") int userId){
         return subjectService.findAllSubjectsByUser(userId);
     }
+
 }
