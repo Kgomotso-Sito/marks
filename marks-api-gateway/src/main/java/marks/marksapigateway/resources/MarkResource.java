@@ -22,10 +22,11 @@ import java.util.List;
 @CrossOrigin(origins="*", maxAge=3600)
 public class MarkResource {
 
-    private String URL = "http://marks-management-service/marks";
-    private String usersURL = "http://user-management-service/users";
-    private String userSubjectURL = "http://subject-maintenance/usersubject";
-    private String subjectURL = "http://subject-maintenance/subjects";
+    private String URL = "http://marks-1591161650651/marks";
+    private String usersURL = "http://user-management-1591161650651/users";
+
+    private String userSubjectURL = "http://subject-1591161650651/usersubject";
+    private String subjectURL = "http://subject-1591161650651/subjects";
 
 
     @Autowired
