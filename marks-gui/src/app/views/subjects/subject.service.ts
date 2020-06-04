@@ -7,31 +7,32 @@ import {Assessment} from "./models/assessment.model";
 @Injectable({ providedIn: 'root' })
 export class SubjectService {
 
-    url : string = "http://localhost:8080/subjects";
-    assessmentURL : string = "http://localhost:8080/assessment";
+    url : string = "https://registry-1591161650651-mark-api-gateway-1591161650651.azuremicroservices.io";
+    subjectURL : string = this.url +"/subjects";
+    assessmentURL : string = this.url +"/assessment";
 
     constructor(private http: HttpClient) {}
 
     public createSubject(subject: any) {
         console.log("Sending subject..." + JSON.stringify(subject));
         return this.http
-            .post<boolean>(this.url + "/create", subject);
+            .post<boolean>(this.subjectURL + "/create", subject);
     }
 
     public getSubjects() {
         return this.http
-            .get<Subject []>(this.url + "/all");
+            .get<Subject []>(this.subjectURL + "/all");
     }
 
     public getUserSubjects(userId: string) {
         return this.http
-            .get<Subject []>(this.url + "/user/" + userId);
+            .get<Subject []>(this.subjectURL + "/user/" + userId);
     }
 
     public getSubject(subjectId: string) {
         console.log("Sending ..." + JSON.stringify(subjectId));
         return this.http
-            .get<Subject>(this.url + "/" + subjectId);
+            .get<Subject>(this.subjectURL + "/" + subjectId);
     }
 
     public createAssessment(assessment: any) {
@@ -49,12 +50,12 @@ export class SubjectService {
     public enrollForSubject(userSubject: any) {
         console.log("Sending subject..." + JSON.stringify(userSubject));
         return this.http
-            .post<boolean>(this.url + "/enroll", userSubject);
+            .post<boolean>(this.subjectURL + "/enroll", userSubject);
     }
 
     public deregisterSubject(userSubject: any) {
         console.log("Sending subject..." + JSON.stringify(userSubject));
         return this.http
-            .post<boolean>(this.url + "/deregister", userSubject);
+            .post<boolean>(this.subjectURL + "/deregister", userSubject);
     }
 }

@@ -6,7 +6,7 @@ import {Mark} from "../models/mark.model";
 @Injectable({ providedIn: 'root' })
 export class SubjectMarksService {
 
-    url : string = "http://localhost:8080/marks";
+    url : string = "https://registry-1591161650651-mark-api-gateway-1591161650651.azuremicroservices.io/marks";
 
     constructor(private http: HttpClient) {}
 

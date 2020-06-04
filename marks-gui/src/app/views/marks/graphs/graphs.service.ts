@@ -5,7 +5,7 @@ import {Grade} from "../models/grades.model";
 @Injectable({ providedIn: 'root' })
 export class GraphsService {
 
-    url : string = "http://localhost:8080/subjects";
+    url : string = "https://registry-1591161650651-mark-api-gateway-1591161650651.azuremicroservices.io/subjects";
 
     constructor(private http: HttpClient) {}
 

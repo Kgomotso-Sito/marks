@@ -21,7 +21,7 @@ export class AdminComponent implements OnInit {
 
   @ViewChild('warningModal') warningModal: ModalDirective;
   userNumber: string;
-  private submitted: boolean = false;
+  submitted: boolean = false;
 
   constructor(private userService: UserService, private formBuilder: FormBuilder) {
   }
