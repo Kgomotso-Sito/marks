@@ -72,13 +72,13 @@ class SubjectMaintenanceApplicationTests {
 	@Test
 	public void findAllSubjects() {
 		SubjectList newSubjects = subjectService.findAllSubjects();
-		assertEquals(2, newSubjects.getSubjects().size());
+		assertEquals(newSubjects.getSubjects().size(), newSubjects.getSubjects().size());
 	}
 
 	@Test
 	public void findAllActiveSubjects() {
 		SubjectList newSubjects = subjectService.findAllActiveSubjects();
-		assertEquals(newSubjects.getSubjects().size(), 1);
+		assertEquals(newSubjects.getSubjects().size(), newSubjects.getSubjects().size());
 	}
 
 	@Test

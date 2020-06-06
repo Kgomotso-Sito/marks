@@ -1,9 +1,11 @@
 package marks.subjectmaintenance.subject.service;
 
+import marks.subjectmaintenance.subject.dao.AverageRepository;
 import marks.subjectmaintenance.subject.dao.SubjectRepository;
 import marks.subjectmaintenance.subject.dto.SubjectList;
 import marks.subjectmaintenance.subject.dto.UserSubjectList;
 import marks.subjectmaintenance.subject.entity.Assessment;
+import marks.subjectmaintenance.subject.entity.Average;
 import marks.subjectmaintenance.subject.entity.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ public class SubjectService {
 
     @Autowired
     private SubjectRepository subjectRepository;
+
+    @Autowired
+    private AverageRepository averageRepository;
 
     @Autowired
     private AssessmentService assessmentService;
@@ -39,6 +44,12 @@ public class SubjectService {
             newSubject.getAssessmentList().forEach(assessment -> {
                 assessment.setSubject(newSubject);
                 assessmentService.createOrUpdate(assessment);
+            });
+        }
+        if(newSubject.getAverages() != null){
+            newSubject.getAverages().forEach(average -> {
+                average.setAverageSubject(newSubject);
+                averageRepository.saveAndFlush(average);
             });
         }
         return newSubject;

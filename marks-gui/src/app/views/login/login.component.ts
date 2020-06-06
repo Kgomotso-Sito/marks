@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {LoginService} from "../login/login.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AngularFireAuth} from "@angular/fire/auth";
+import {LoginService} from "./login.service";
 
 
 @Component({
@@ -12,9 +11,9 @@ import {AngularFireAuth} from "@angular/fire/auth";
 export class LoginComponent implements OnInit{
   error: string = null;
   offlineDebug: boolean = true;
-  private submitted: boolean = false;
-  private success: boolean = true;
-  private loading: boolean = false;
+   submitted: boolean = false;
+   success: boolean = true;
+   loading: boolean = false;
 
   loginForm: FormGroup;
 

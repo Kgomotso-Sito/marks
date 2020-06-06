@@ -23,7 +23,7 @@ class UserManagementApplicationTests {
 	void contextLoads() {
 	}
 
-	@Test
+	/*@Test
 	public void createAndSearchUser() {
 		User testUser = new User();
 
@@ -51,5 +51,5 @@ class UserManagementApplicationTests {
 		User user = userService.findByUserNumber("A20200000");
 
 		assertEquals(testUser.getIdNumber(), user.getIdNumber());
-	}
+	}*/
 }
