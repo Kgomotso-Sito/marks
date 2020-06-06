@@ -1,14 +1,16 @@
 # Marks
 App designed for centralising and abstracting learners marks in a school, for ease of information access and providing a school wide of the learner marks. 
 
-## About the developer
+## About the developer,
+linkedin www.linkedin.com/in/kgomotso-sito
+
 Kgomotso Sito a University of Pretoria Computer Science Honours student with a passion for information technology and its growth, mainly Software Engineering and Data Warehousing. 
 
 #### Technical Skills
-JAVA, Spring Framework, Oracle ADF, REST, JPA /Hibernate, Oracle SQL, MySQL, Typescript, Angular, Bootstrap, JavaServer Faces
+JAVA, Spring Framework, Oracle ADF, REST, JPA /Hibernate, Oracle SQL, MySQL, Typescript, Angular, Bootstrap and JavaServer Faces
 
 #### Tools
-IDE (Intellij, JDeveloper), Weblogic, Jenkins, GIT, SVN, Ready API, Testlink, JIRA, Bugzilla, Confluence, Trello, OS- CentOS, OS- Solaris, OS- Fedora.
+IDE (Intellij, JDeveloper), Weblogic, Jenkins, GIT, SVN, Ready API, Testlink, JIRA, Bugzilla, Confluence, Trello, OS- CentOS, OS- Solaris and OS- Fedora.
 
 
 ## Marks System
