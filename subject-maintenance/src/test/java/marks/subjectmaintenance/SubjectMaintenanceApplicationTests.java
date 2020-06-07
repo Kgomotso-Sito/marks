@@ -27,12 +27,6 @@ class SubjectMaintenanceApplicationTests {
 	@Autowired
 	private SubjectService subjectService;
 
-	@Autowired
-	private AssessmentService assessmentService;
-
-	@Autowired
-	private UserSubjectService userSubjectService;
-
 	@Test
 	void contextLoads() {
 	}
