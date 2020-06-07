@@ -2,6 +2,7 @@ package marks.marksmanagement.mark.entity;
 
 import javax.persistence.Embeddable;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Embeddable
 public class MarkId implements Serializable {
@@ -31,5 +32,19 @@ public class MarkId implements Serializable {
 
     public void setAssessmentId(Integer assessmentId) {
         this.assessmentId = assessmentId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MarkId markId = (MarkId) o;
+        return userNumber.equals(markId.userNumber) &&
+                assessmentId.equals(markId.assessmentId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userNumber, assessmentId);
     }
 }
