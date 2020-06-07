@@ -2,6 +2,7 @@ package marks.subjectmaintenance.subject.entity;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Subject")
@@ -74,4 +75,21 @@ public class Subject {
         this.active = active;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Subject subject = (Subject) o;
+        return id == subject.id &&
+                code.equals(subject.code) &&
+                description.equals(subject.description) &&
+                active.equals(subject.active) &&
+                Objects.equals(assessmentList, subject.assessmentList) &&
+                Objects.equals(averages, subject.averages);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, code, description, active, assessmentList, averages);
+    }
 }
