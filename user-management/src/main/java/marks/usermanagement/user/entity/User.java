@@ -2,6 +2,7 @@ package marks.usermanagement.user.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "User")
@@ -212,5 +213,38 @@ public class  User {
 
     public enum Role {
         Admin, Teacher, Learner
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id &&
+                userNumber.equals(user.userNumber) &&
+                role == user.role &&
+                title.equals(user.title) &&
+                initials.equals(user.initials) &&
+                fullName.equals(user.fullName) &&
+                lastName.equals(user.lastName) &&
+                gender.equals(user.gender) &&
+                race.equals(user.race) &&
+                birthDate.equals(user.birthDate) &&
+                nationality.equals(user.nationality) &&
+                idNumber.equals(user.idNumber) &&
+                passportNumber.equals(user.passportNumber) &&
+                emailAddress.equals(user.emailAddress) &&
+                phoneNumber.equals(user.phoneNumber) &&
+                Objects.equals(houseNo, user.houseNo) &&
+                Objects.equals(StreetNo, user.StreetNo) &&
+                Objects.equals(cityCode, user.cityCode) &&
+                city.equals(user.city) &&
+                province.equals(user.province) &&
+                active.equals(user.active);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userNumber, role, title, initials, fullName, lastName, gender, race, birthDate, nationality, idNumber, passportNumber, emailAddress, phoneNumber, houseNo, StreetNo, cityCode, city, province, active);
     }
 }
