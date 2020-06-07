@@ -39,6 +39,8 @@ import {HTTP_INTERCEPTORS, HttpClientModule, HttpInterceptor} from "@angular/com
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthGuard} from "./guard/auth.guard";
 import { TokenInterceptorService} from "./guard/token-interceptor.service";
+import { ManualComponent } from './views/manual/manual.component';
+import {PdfViewerModule} from "ng2-pdf-viewer";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAj2_PMg04PEWv14ClZ4OIZP6ZlGEB1r-Y",
@@ -68,7 +70,8 @@ const firebaseConfig = {
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
-        AngularFireModule.initializeApp(firebaseConfig)
+        AngularFireModule.initializeApp(firebaseConfig),
+        PdfViewerModule
     ],
   declarations: [
     AppComponent,
@@ -76,7 +79,8 @@ const firebaseConfig = {
     P404Component,
     P500Component,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ManualComponent
   ],
   providers: [{
     provide: LocationStrategy,
