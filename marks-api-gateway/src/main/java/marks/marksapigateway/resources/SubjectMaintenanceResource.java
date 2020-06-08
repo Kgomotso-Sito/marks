@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -103,12 +104,16 @@ public class SubjectMaintenanceResource {
 
         SubjectList subjectList = restTemplate.getForObject(subjectURL + "/all", SubjectList.class);
         List<Grade> grades = new ArrayList<>();
-        List<Integer> average = new ArrayList<>();
 
         subjectList.getSubjects().forEach(subject -> {
-            subject.getAverages().forEach(average1 -> {
-                average.add(average1.getAverageId().getMonth(),average1.getValue());
-            });
+            List<Integer> average = new ArrayList<>(12);
+            if(subject.getAverages() != null) {
+                subject.getAverages().forEach(average1 -> {
+                    average.add(average1.getAverageId().getMonth(), average1.getValue());
+                });
+            } else {
+                average.addAll(Collections.nCopies(12, 0));
+            }
             Grade grade = new Grade(subject.getDescription(),average);
             grades.add(grade);
         });
