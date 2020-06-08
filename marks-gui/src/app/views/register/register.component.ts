@@ -90,7 +90,7 @@ export class RegisterComponent implements OnInit{
             console.log("User exists");
             this.success = true;
             this.registerUser(formData.email, formData.password);
-            this.registerForm.reset();
+            this.submitted = false;
           }
         },
         err => console.error(err),
