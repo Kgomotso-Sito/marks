@@ -2,6 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {LoginService} from "./login.service";
+import * as firebase from "firebase";
+import {AngularFirestore, AngularFirestoreDocument} from "@angular/fire/firestore";
+import {GmailUser} from "./user.model";
+import {AngularFireAuth} from "@angular/fire/auth";
+import {Observable} from "rxjs";
 
 
 @Component({
@@ -14,10 +19,14 @@ export class LoginComponent implements OnInit{
    submitted: boolean = false;
    success: boolean = true;
    loading: boolean = false;
+   user$: Observable<GmailUser>;
 
-  loginForm: FormGroup;
 
-  constructor(private router: Router, private loginService: LoginService, private formBuilder: FormBuilder) {}
+    loginForm: FormGroup;
+
+  constructor(private router: Router, private loginService: LoginService, private formBuilder: FormBuilder,
+    private firebaseAuth: AngularFireAuth,
+    private afs: AngularFirestore) {}
 
   ngOnInit() {
       /*if (this.firebaseAuth.currentUser) {
@@ -78,4 +87,26 @@ export class LoginComponent implements OnInit{
   goToRegister() {
     this.router.navigate(['/register']);
   }
+
+    async googleSignin() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        const credential = await this.firebaseAuth.signInWithPopup(provider);
+        return this.updateUserData(credential.user);
+    }
+
+    private updateUserData(user) {
+        // Sets user data to firestore on login
+        const userRef: AngularFirestoreDocument<GmailUser> = this.afs.doc(`users/${user.uid}`);
+
+        const data = {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+        }
+
+        localStorage.setItem("token", data.uid);
+        this.router.navigate(['/users/admin']);
+        return userRef.set(data, { merge: true })
+    }
 }

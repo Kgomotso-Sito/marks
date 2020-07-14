@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit{
 
   submitted: boolean = false;
 
-  constructor(private registerService: RegisterService, private formBuilder: FormBuilder, private firebaseAuth: AngularFireAuth){
+  constructor(private registerService: RegisterService, private formBuilder: FormBuilder, private firebaseAuth: AngularFireAuth) {
   }
 
   ngOnInit() {
@@ -98,11 +98,9 @@ export class RegisterComponent implements OnInit{
           console.log('Done fetching admin user');
         }
     );
-
-
   }
 
-  registerUser(email: string, password: string) {
+    registerUser(email: string, password: string) {
     this.firebaseAuth
         .createUserWithEmailAndPassword(email, password).then(
         resData => {

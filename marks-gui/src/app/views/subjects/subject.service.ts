@@ -7,7 +7,7 @@ import {Assessment} from "./models/assessment.model";
 @Injectable({ providedIn: 'root' })
 export class SubjectService {
 
-    url : string = "https://registry-1591161650651-mark-api-gateway-1591161650651.azuremicroservices.io";
+    url : string = "https://mark-api-gateway-1591161650651.herokuapp.com";
     subjectURL : string = this.url +"/subjects";
     assessmentURL : string = this.url +"/assessment";
 

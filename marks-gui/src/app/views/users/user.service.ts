@@ -7,7 +7,7 @@ import {HttpClient} from "@angular/common/http";
 @Injectable({ providedIn: 'root' })
 export class UserService {
 
-    url : string = "https://registry-1591161650651-mark-api-gateway-1591161650651.azuremicroservices.io/users";
+    url : string = "https://mark-api-gateway-1591161650651.herokuapp.com/users";
 
     constructor(private http: HttpClient) {}
 
