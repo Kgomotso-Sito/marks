@@ -13,3 +13,11 @@ export class User {
     return this._token;
   }
 }
+
+export interface GmailUser {
+  uid: string;
+  email: string;
+  photoURL?: string;
+  displayName?: string;
+  myCustomData?: string;
+}
