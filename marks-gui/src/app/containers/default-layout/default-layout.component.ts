@@ -24,7 +24,6 @@ export class DefaultLayoutComponent {
   }
 
   viewManual() {
-    console.log("View manual")
     this.router.navigate(['/manual']);
   }
 }
