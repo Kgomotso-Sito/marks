@@ -23,7 +23,8 @@ export class DefaultLayoutComponent {
     this.router.navigate(["/login"]);
   }
 
-
-
-
+  viewManual() {
+    console.log("View manual")
+    this.router.navigate(['/manual']);
+  }
 }
