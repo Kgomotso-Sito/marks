@@ -30,9 +30,9 @@ class UserManagementApplicationTests {
 	public void createUser() {
 		User testUser = new User();
 
-		testUser.setRole(User.Role.Teacher);
+		testUser.setRole(User.Role.Learner);
 		testUser.setTitle("Mr");
-		testUser.setFullName("Teacher");
+		testUser.setFullName("Kgomotso");
 		testUser.setLastName("Sito");
 
 		testUser.setGender("Male");
@@ -64,8 +64,8 @@ class UserManagementApplicationTests {
 
 	@Test
 	public void searchUsers() {
-		UserList users = userService.findByUserNumber(Arrays.asList("L20200000", "L20200001"));
-		assertTrue(users.getUsers().size() == 2);
+		UserList users = userService.findByUserNumber(Arrays.asList("L20200000"));
+		assertTrue(users.getUsers().size() == 1);
 	}
 
 	@Test
