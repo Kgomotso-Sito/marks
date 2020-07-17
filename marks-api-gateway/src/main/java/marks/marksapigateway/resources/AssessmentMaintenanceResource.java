@@ -18,7 +18,7 @@ import java.util.List;
 @CrossOrigin(origins="*", maxAge=3600)
 public class AssessmentMaintenanceResource {
 
-    private String URL= "http://subject-1591161650651/assessment";
+    private String URL= "https://subject-1591161650651.herokuapp.com/assessment";
 
     @Autowired
     private RestTemplate restTemplate;

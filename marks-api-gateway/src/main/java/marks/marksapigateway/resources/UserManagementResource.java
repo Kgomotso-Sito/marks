@@ -19,8 +19,8 @@ import java.util.List;
 @CrossOrigin(origins="*", maxAge=3600)
 public class UserManagementResource {
 
-    private String URL = "http://user-management-1591161650651/users";
-    private String userSubjectURL = "http://subject-1591161650651/usersubject";
+    private String URL = "https://user-management-1591161650651.herokuapp.com/users";
+    private String userSubjectURL = "https://subject-1591161650651.herokuapp.com/usersubject";
 
     @Autowired
     private RestTemplate restTemplate;

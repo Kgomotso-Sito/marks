@@ -22,13 +22,13 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins="*", maxAge=3600)
 public class SubjectMaintenanceResource {
 
-    private String URL = "http://subject-1591161650651";
+    private String URL = "https://subject-1591161650651.herokuapp.com";
 
 
     private String subjectURL = URL + "/subjects";
     private String userSubjectURL = URL + "/usersubject";
     private String assessmentURL= URL + "/assessment";
-    private String marksURL = "http://marks-1591161650651/marks";
+    private String marksURL = "https://marks-1591161650651.herokuapp.com/marks";
 
     @Autowired
     private RestTemplate restTemplate;
