@@ -53,7 +53,7 @@
     "flag-icon-css": "^3.4.6",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "mutationobserver-shim": "^0.3.3",
     "ng2-charts": "^2.3.0",
     "ng2-pdf-viewer": "^6.3.0",
